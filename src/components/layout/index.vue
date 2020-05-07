@@ -3,12 +3,16 @@
     <el-container>
       <el-aside width="201px;">
         <!-- <vue-scroll :ops="ops" style="height:100%"> -->
-        <div class="logo_index">logo</div>
+        <div class="logo_index" @click="goindex">logo</div>
         <Acccls></Acccls>
         <!-- </vue-scroll> -->
       </el-aside>
       <el-container>
         <el-header>
+          <!-- <el-badge :value="12" class="item">
+            <i class="el-icon-bell"></i>
+          </el-badge>-->
+
           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
           <el-button plain @click.native="logout">退出</el-button>
         </el-header>
@@ -20,7 +24,7 @@
         </el-row>
         <el-main style="height: 100%;">
           <!-- <vue-scroll :ops="ops" style="width:100%;height:100%"> -->
-          <div>
+          <div style="width: 98%; padding: 20px;">
             <div class="content">
               <transition name="move" mode="out-in">
                 <keep-alive :include="tagsList">
@@ -85,6 +89,11 @@ export default {
         .catch(() => {
           console.log('取消')
         })
+    },
+    goindex() {
+      this.$router.push({
+        path: '/backstage/index'
+      })
     }
   },
   components: {
@@ -99,6 +108,7 @@ export default {
 }
 .logo_index {
   height: 60px;
+  line-height: 60px;
   background-color: antiquewhite;
 }
 .el-header,

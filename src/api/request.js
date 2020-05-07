@@ -23,7 +23,6 @@ export const doExec = (url, params, contentType, methods) => {
             },
         })
         .then(res => {
-
             if (res.data.code == 4000) {
                 ServerMixin.Event.$emit('login', res.data.data)
                 return {}
@@ -31,7 +30,7 @@ export const doExec = (url, params, contentType, methods) => {
                 return res.data
             }
         }).catch(res => {
-            if (res.response.status == 403 && !isLoginTip) {
+            if (res.request.status == 403 && !isLoginTip) {
                 isLoginTip = true
                 ServerMixin.Event.$$alert({
                     message: '登录超时，请重新登录。',

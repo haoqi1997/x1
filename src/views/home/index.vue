@@ -130,21 +130,10 @@ export default {
   // 监听,当路由发生变化的时候执行
   watch: {
     $route(to, from) {
-      console.log('$route -> to', to)
       this.title = to.meta.title
       this.path = to.path
     }
   },
-  //   beforeRouteEnter(to, from, next) {
-  //     console.log('beforeRouteEnter -> from', from)
-  //     console.log('beforeRouteEnter -> to', to)
-  //     next(vm => {
-  //       console.log('beforeRouteEnter ->  vm.activeIndex2', vm.activeIndex2)
-  //       // 通过“vm”访问组件实例`
-  //       //   if(to.path==)
-  //       //可以通过vm.name去访问data里面的name属性，跟this.name一样效果
-  //     })
-  //   },
   created() {},
   mounted() {},
   methods: {

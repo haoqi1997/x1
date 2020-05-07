@@ -110,9 +110,9 @@ export const base = {
         // inquireResource(opts) {
         //     return doExec(`${apiPrefix}/resource/user`, opts, null, 'get')
         // },
-        //查询菜单下按钮
-        // inquireResource(opts) {
-        //     return doExec(`${apiPrefix}/resource/user`, opts, null, 'get')
-        // },
+        // 查询菜单下按钮
+        QueryMenuButton(username, parentId, opts) {
+            return doExec(`${apiPrefix}/resource/user/${username}/${parentId}`, opts, null, 'get')
+        },
     },
 }

@@ -22,7 +22,7 @@
             </template>
             <template v-for="subItem in item.childList">
               <el-submenu v-if="subItem.childList" :index="subItem.functionUrl" :key="subItem.id">
-                <template slot="title">{{ subItem.name }}</template>
+                <template slot="title">{{ subItem.name }}111</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.childList"
                   :key="i"
@@ -32,10 +32,15 @@
                     <use :xlink:href="item.iconClass" />
                   </svg>
                   &nbsp;
-                  {{ threeItem.name }}
+                  {{ threeItem.name }}222
                 </el-menu-item>
               </el-submenu>
-              <el-menu-item v-else :index="subItem.functionUrl" :key="subItem.id">{{ subItem.name }}</el-menu-item>
+              <el-menu-item
+                v-else
+                @click="eClose(subItem.id)"
+                :index="subItem.functionUrl"
+                :key="subItem.id"
+              >{{ subItem.name }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
@@ -50,7 +55,7 @@
               <use :xlink:href="item.iconClass" />
             </svg>
             &nbsp;
-            <span slot="title">{{ item.name }}</span>
+            <span slot="title">{{ item.name }}333</span>
           </el-menu-item>
         </template>
       </template>
@@ -63,23 +68,31 @@ export default {
   data() {
     return {
       isCollapse: false, //是否折叠
-      items: [] //权限列表
+      items: [], //权限列表
+      username: '' //权限列表
     }
   },
-  created() {},
-  mounted() {
+  created() {
     this.items = JSON.parse(localStorage.getItem('menuList')).menuList
-    // console.log(
-    //   "mounted -> JSON.parse(localStorage.getItem('menus')).menuList",
-    //   JSON.parse(localStorage.getItem('menus')).menuList
-    // )
+    this.username = JSON.parse(localStorage.getItem('menuList')).userVo.username
+  },
+  mounted() {
+    // this.eClose()
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath)
+      //   console.log(key, keyPath)
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath)
+      //   console.log(key, keyPath)
+      //   QueryMenuButton
+    },
+    eClose(key) {
+      this.$public.resource.QueryMenuButton(this.username, key).then(res => {
+        if (res.code == '000000') {
+          localStorage.setItem('buttonList', JSON.stringify(res.data))
+        }
+      })
     }
   },
   computed: {

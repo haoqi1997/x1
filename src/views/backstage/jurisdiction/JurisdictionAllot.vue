@@ -4,12 +4,12 @@
       <div class="buttons">
         <el-row :gutter="20">
           <el-col :span="7">
-            <el-input placeholder="请输入内容" clearable @clear="getUserList" v-model="getUser">
+            <el-input placeholder="请输入用户姓名" clearable @clear="getUserList" v-model="getUser">
               <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
             </el-input>
           </el-col>
-          <el-col :span="4">
-            <el-button type="primary" @click="adduser">添加用11户</el-button>
+          <el-col :span="4" id="user_add">
+            <el-button type="primary" @click="adduser" v-if="stair.user_add">添加用户</el-button>
           </el-col>
         </el-row>
       </div>
@@ -28,7 +28,7 @@
         <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column prop="name" label="姓名" width="180"></el-table-column>
         <el-table-column prop="username" label="登录名称" width="180"></el-table-column>
-        <el-table-column prop="mobile" label="电话"></el-table-column>
+        <el-table-column prop="mobile" label="电话" width="180"></el-table-column>
         <el-table-column prop="description" label="描述"></el-table-column>
         <el-table-column label="操作">
           <!-- 编辑用户 -->
@@ -37,12 +37,14 @@
               type="primary"
               icon="el-icon-edit"
               @click="handleEdit(scope.$index, scope.row.id)"
+              v-show="stair.user_update"
               size="mini"
             ></el-button>
             <!-- 删除用户 -->
             <el-button
               type="danger"
               @click="handleDelete(scope.$index, scope.row.id)"
+              v-show="stair.user_delete"
               icon="el-icon-delete"
               size="mini"
             ></el-button>
@@ -110,28 +112,26 @@
         label-width="170px"
         class="demo-ruleForm"
       >
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="editUserForm.username"></el-input>
-        </el-form-item>
         <el-form-item label="用户名称" prop="name">
           <el-input v-model="editUserForm.name"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="用户密码" prop="name">
-          <el-input v-model="editUserForm.password"></el-input>
-        </el-form-item>-->
+        <el-form-item label="登录名称" prop="name">
+          <el-input v-model="editUserForm.username"></el-input>
+        </el-form-item>
+
         <el-form-item label="手机" prop="mobile">
           <el-input v-model="editUserForm.mobile"></el-input>
         </el-form-item>
         <el-form-item label="添加描述" prop="description">
           <el-input type="textarea" v-model="editUserForm.description" placeholder="用户描述"></el-input>
         </el-form-item>
-        <el-form-item label="角色分配">
-          <el-select v-model="select" multiple placeholder="请选择新角色">
+        <el-form-item label="用户权限">
+          <el-select v-model="selects" multiple placeholder="请选择新角色">
             <el-option
               v-for="item in rolesList"
               :key="item.id"
               :label="item.roleName"
-              :value="item"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -175,8 +175,7 @@ export default {
       setRoleDialogVisible: false, //分配
       rolesList: [], //角色列表
       selectRoleId: [], //选中的角色
-      rolesList: [], //角色列表修改
-      select: [], //选中的角色修改
+      selects: [], //选中的角色修改
       ruleForm: {
         //新建信息
         username: '',
@@ -223,6 +222,13 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ]
       },
+      isbuttonList: '', //显示按钮列表
+      //按钮权限
+      stair: {
+        user_add: false, //新建
+        user_update: false, //修改
+        user_delete: false //删除
+      },
       rootData: [], //权限树
       defaultProps: {
         children: 'childList',
@@ -234,7 +240,14 @@ export default {
   },
   mounted() {
     this.$refs.page.getList(1)
+    this.isbutton()
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.isbutton()
+    })
+  },
+
   methods: {
     //打开新建
     adduser() {
@@ -244,12 +257,11 @@ export default {
     },
     //搜索
     getUserList() {
-      console.log('getUserList -> this.getUser', this.getUser)
+      this.$refs.page.getList(1)
     },
     //角色获取
     roleAl() {
       this.$public.role.roleAll().then(res => {
-        console.log('roleAl -> res', res)
         if (res.code == '000000') {
           this.rolesList = res.data
         }
@@ -264,6 +276,7 @@ export default {
         .seekuser({
           current: pageIndex,
           deleted: 0,
+          name: this.getUser,
           size: rows
         })
         .then(res => {
@@ -276,6 +289,22 @@ export default {
     },
     editDialogClosed() {
       this.$refs.editUserFormRef.resetFields()
+    },
+    //控制按钮
+    isbutton() {
+      this.isbuttonList = JSON.parse(localStorage.getItem('buttonList'))
+        ? JSON.parse(localStorage.getItem('buttonList'))
+        : ''
+      this.isbuttonList.forEach(item => {
+        // console.log('getList -> item', item.code)
+        if (item.code == 'user_add') {
+          this.stair.user_add = true //新建工单
+        } else if (item.code == 'user_update') {
+          this.stair.user_update = true //采样
+        } else if (item.code == 'user_delete') {
+          this.stair.user_delete = true //称重
+        }
+      })
     },
     //提交新建用户
     addPart() {
@@ -300,6 +329,7 @@ export default {
               this.dialogFormVisible = false //关闭
               this.ruleForm = {}
               this.$refs.ruleForm.resetFields() //对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
+              this.selectRoleId = []
               this.$refs.page.getList(1)
             }
           })
@@ -312,26 +342,35 @@ export default {
     //修改用户
     editUser() {
       //   this.editUserForm
-      const amend = {
-        accountNonLocked: false,
-        description: this.editUserForm.description,
-        enabled: false,
-        mobile: this.editUserForm.mobile,
-        name: this.editUserForm.name,
-        // password: this.editUserForm.password,
-        roleIds: this.selectRoleId ? this.selectRoleId : []
-      }
-      console.log('editUser -> amend', amend)
-      //   this.$public.user.amendkeyuser(this.editUserForm.id, amend).then(src => {
-      //     if (src.code == '000000') {
-      //       this.$message({
-      //         message: '修改成功',
-      //         type: 'success'
-      //       })
-      //       this.$refs.page.getList(1)
-      //       this.editDialogVisible = false
-      //     }
-      //   })
+      this.$refs.editUserFormRef.validate(valid => {
+        if (valid) {
+          const amend = {
+            accountNonLocked: false,
+            description: this.editUserForm.description,
+            enabled: false,
+            mobile: this.editUserForm.mobile,
+            name: this.editUserForm.name,
+            username: this.editUserForm.username,
+            password: this.editUserForm.password,
+            roleIds: this.selects ? this.selects : []
+          }
+          this.$public.user
+            .amendkeyuser(this.editUserForm.id, amend)
+            .then(src => {
+              if (src.code == '000000') {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.$refs.page.getList(1)
+                this.editDialogVisible = false
+              }
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
 
     //重置新建
@@ -430,9 +469,8 @@ export default {
       this.$public.user.getkeyuser(id).then(res => {
         if (res.code == '000000') {
           this.roleAl()
-
           this.editUserForm = res.data
-          console.log('handleEdit -> res.data', res.data)
+          this.selects = res.data.roleIds
           this.editDialogVisible = true
         }
       })

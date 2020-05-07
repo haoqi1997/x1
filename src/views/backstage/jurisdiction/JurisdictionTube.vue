@@ -6,12 +6,12 @@
       <div class="buttons">
         <el-row :gutter="20">
           <el-col :span="7">
-            <el-input placeholder="请输入内容" clearable @clear="getUserList" v-model="getUser">
+            <el-input placeholder="请输入角色名称" clearable @clear="getUserList" v-model="getUser">
               <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
             </el-input>
           </el-col>
           <el-col :span="4">
-            <el-button type="primary" @click="adduser">添加角色</el-button>
+            <el-button type="primary" @click="adduser" v-if="stair.role_add">添加角色</el-button>
           </el-col>
         </el-row>
       </div>
@@ -28,13 +28,18 @@
         element-loading-text="正在获取角色列表，请稍等..."
       >
         <el-table-column type="index" label="序号" width="50"></el-table-column>
-        <el-table-column prop="roleName" label="角色姓名" width="180"></el-table-column>
+        <el-table-column prop="roleName" label="角色名称" width="180"></el-table-column>
         <el-table-column prop="roleDesc" label="角色描述"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="redactuser(scope.$index, scope.row.id ,)">编辑</el-button>
+            <el-button
+              size="mini"
+              @click="redactuser(scope.$index, scope.row.id ,)"
+              v-show="stair.role_update"
+            >编辑</el-button>
 
             <el-popconfirm
+              v-show="stair.role_delete"
               confirmButtonText="好的"
               cancelButtonText="取消"
               icon="el-icon-info"
@@ -74,6 +79,7 @@
           <div style="width: 100%;">
             <el-tree
               :data="rootData"
+              default-expand-all
               show-checkbox
               node-key="id"
               ref="tree"
@@ -103,10 +109,12 @@
           <div style="width: 100%;">
             <el-tree
               :data="rootData"
+              default-expand-all
               show-checkbox
               node-key="id"
               ref="tree"
               :default-checked-keys="checkedKeys"
+              :default-expanded-keys="expandedKeys"
               :props="defaultProps"
             ></el-tree>
           </div>
@@ -136,10 +144,18 @@ export default {
       xgVisible: false, //修改角色开关
       roleId: '', //点开人的id
       getUser: '',
+      expandedKeys: [], //默认展开
       ruleForm: {
         //新建信息
         roleName: '',
         description: ''
+      },
+      isbuttonList: '', //显示按钮列表
+      //按钮权限
+      stair: {
+        role_add: false, //新建
+        role_update: false, //修改
+        role_delete: false //删除
       },
       redact: {
         //修改
@@ -167,8 +183,29 @@ export default {
   },
   mounted() {
     this.$refs.page.getList(1)
+    this.isbutton()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.isbutton()
+    })
   },
   methods: {
+    //控制按钮
+    isbutton() {
+      this.isbuttonList = JSON.parse(localStorage.getItem('buttonList'))
+        ? JSON.parse(localStorage.getItem('buttonList'))
+        : ''
+      this.isbuttonList.forEach(item => {
+        if (item.code == 'role_add') {
+          this.stair.role_add = true //新建工单
+        } else if (item.code == 'role_update') {
+          this.stair.role_update = true //采样
+        } else if (item.code == 'role_delete') {
+          this.stair.role_delete = true //称重
+        }
+      })
+    },
     //打开新建
     adduser() {
       this.checkedKeys = []
@@ -196,7 +233,6 @@ export default {
           this.checkedKeys = newArr
           this.dialog = true
         }
-        console.log('redactuser -> res', res)
       })
     },
     //修改角色
@@ -232,7 +268,6 @@ export default {
         })
         .then(res => {
           if (res.code == '000000') {
-            console.log('getList -> res', res)
             this.tableRoleData = res.data.records
             this.loading = false //
             callback(this.tableRoleData, +res.data.total)
@@ -241,7 +276,6 @@ export default {
     },
     //搜索
     getUserList() {
-      console.log('getUserList -> this.getUser', this.getUser)
       this.$refs.page.getList(1)
     },
     //提交新建角色
@@ -254,8 +288,6 @@ export default {
             resourceIds: this.getCheckedKey(),
             roleName: this.ruleForm.roleName
           }
-
-          console.log('addPart -> val', val)
 
           this.$public.role
             .addUserRole(val)
@@ -271,9 +303,7 @@ export default {
                 this.$refs.page.getList(1)
               }
             })
-            .catch(result => {
-              console.log('getList -> result', result)
-            })
+            .catch(result => {})
         } else {
           console.log('error submit!!')
           return false
@@ -408,10 +438,6 @@ export default {
         }
       })
     }
-    // astrict(aa) {
-    //   console.log('astrict -> aa', aa.replace(/[^a-zA-Z]/g, ''))
-    //   aa = aa.replace(/[^a-zA-Z]/g, '')
-    // }
   },
   components: {
     CtrlPage

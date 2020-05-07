@@ -112,9 +112,6 @@ export default {
 
     //获取验证码
     gaincode() {
-      //   this.$public.getcode().then(res => {
-      //     console.log('gaincode -> res', res)
-      //   })
       this.codeimg = `${window.apiBase}/system/${this.from.key}` //缓存+${new Date().getTime()}
     },
     //提示成功
@@ -150,6 +147,7 @@ export default {
 }
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
   content: '';
+  color: rgba(255, 255, 255, 0);
   margin-right: 0px;
 }
 </style>

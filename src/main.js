@@ -16,6 +16,7 @@ import "./assets/styleshennts/reset.css"
 import 'assets/styleshennts/login.css'
 //后台
 import 'assets/styleshennts/backstage.css'
+import 'default-passive-events'
 
 Vue.use(ElementUI);
 import ServerMixin from './mixin/serverMixin'
@@ -26,13 +27,14 @@ Vue.use(ServerMixin)
     // import "quill/dist/quill.snow.css"
     // import "quill/dist/quill.bubble.css"
     // Vue.use(VueQuillEditor)
-    //修改滚动条
+    // 修改滚动条
 Vue.config.productionTip = false
 
-// const originalPush = Router.prototype.push
-// Router.prototype.push = function push(location) {
-//     return originalPush.call(this, location).catch(err => err)
-// }
+import * as filters from './filter/filter'
+
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+})
 
 //拦截白名单
 
@@ -42,7 +44,6 @@ router.beforeEach((to, from, next) => {
     if (to.path.indexOf(whiteList) != -1) {
         //在后台管理里面
         //是否存在token
-        console.log("getUserInfo()", getUserInfo())
         if (getUserInfo()) {
             //存在
             if (to.path === '/backstage/login') {
@@ -91,7 +92,6 @@ new Vue({
                     }
                 }, false)
             }
-
             ServerMixin.Event.$on('login', () => {
                 this.$store.dispatch('logout')
                     .then(() => {
