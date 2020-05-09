@@ -15,5 +15,8 @@ export default {}
   overflow: hidden;
 }
 </style>
+<style >
+@import '../public/font/TW/font.css';
+</style>
 
 

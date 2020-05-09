@@ -2,39 +2,50 @@
   <div class="home">
     <el-container>
       <el-main>
-        <el-header>
-          <el-button plain @click.native="login">登录</el-button>
-          <el-menu
-            :default-active="activeIndex2"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            style="float: right;"
-            router
-          >
-            <el-submenu :index="item.path" v-for="item in taglist" :key="item.path">
-              <template slot="title">{{item.name}}</template>
-              <el-menu-item
-                :index="items.path"
-                v-for="items in item.children"
-                :key="items.path"
-              >{{items.name}}</el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </el-header>
         <!-- 是否首页轮播 -->
         <div class="banner_img" v-if="path!='/index'">
           <p class="banner_text">{{title}}</p>
         </div>
-        <div v-else>
-          <el-carousel indicator-position="outside">
-            <el-carousel-item v-for="item in bannerImg" :key="item">
-              <img style="width:100%" :src="item" alt />
+
+        <div v-else style="position: relative;">
+          <div class="header">
+            <!-- <el-button plain @click.native="login">登录</el-button> -->
+            <el-menu
+              :default-active="activeIndex2"
+              class="el-menu-demo"
+              mode="horizontal"
+              @select="handleSelect"
+              background-color="rgba(255,255,255,0)"
+              text-color="#808080"
+              active-text-color="rgb(255,255,255)"
+              style="float: right;right: 327px;"
+              router
+            >
+              <el-submenu
+                :index="item.path"
+                v-for="item in taglist"
+                :key="item.path"
+                v-if="item.children"
+              >
+                <template slot="title">{{item.name}}</template>
+                <el-menu-item
+                  :index="items.path"
+                  v-for="items in item.children"
+                  :key="items.path"
+                >{{items.name}}</el-menu-item>
+              </el-submenu>
+              <el-menu-item :index="item.path" v-else>{{item.name}}</el-menu-item>
+            </el-menu>
+          </div>
+          <!-- 轮播 -->
+          <el-carousel indicator-position="outside" height="1080px" arrow="always" :interval="5000">
+            <el-carousel-item v-for="item in bannerImg" :key="item.src">
+              <img style="width:100%" :src="item.src" alt="轮播" />
             </el-carousel-item>
           </el-carousel>
+          <div class="white_baneer">
+            <div class="home_title">净慈寺</div>
+          </div>
         </div>
 
         <div class="mian_content">
@@ -54,10 +65,9 @@ export default {
       title: this.$route.meta.title,
       path: this.$route.path,
       bannerImg: [
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587893468647&di=349a7d02a23398e1cd9e7e75259a97a9&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181215%2Fdcf755e47be94e50bc02d8eda3f30803.jpeg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587893468646&di=42975289ea7ef511f8d611cac10e7274&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20161022%2F94d5fb1c3ac34b32817a910c81a38181_th.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587893468645&di=dd617b5471beab08208af39e8fa1c710&imgtype=0&src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2F100m0x000000ldck62667.jpg',
-        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587893468644&di=3ab88a880f466535f01daa929b97b583&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20200312%2F6cc876cf23364bffa955394a1992d7c8.jpeg'
+        { src: require('../../assets/img/home/1.jpg') },
+        { src: require('../../assets/img/home/2.jpg') },
+        { src: require('../../assets/img/home/3.jpg') }
       ],
       taglist: [
         {
@@ -151,10 +161,10 @@ export default {
 /* 首页 */
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
+  background-color: #ffffff;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  line-height: 85px;
 }
 
 .el-container {
@@ -179,11 +189,52 @@ export default {
   color: #333;
   border-top: 1px solid #e9eef3;
 }
-.el-header {
+.el-menu--horizontal > .el-menu-item {
+  height: 85px;
+  line-height: 85px;
+}
+.header {
+  height: 85px;
   padding: 0;
   box-sizing: border-box;
   flex-shrink: 0;
-  background-color: #545c64;
+  width: 99vw;
+  position: absolute;
+
+  z-index: 99;
+  /* background-color: #73cbd8; */
+}
+.header > ul > li:hover {
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: #ffffff !important;
+}
+.header > ul > li > div:hover {
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: #ffffff !important;
+}
+.el-menu--horizontal > ul > li:hover {
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: #ffffff !important;
+}
+.el-menu--horizontal > ul > li > div:hover {
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: #ffffff !important;
+}
+.el-menu--popup {
+  border: none;
+  padding: 5px 0;
+  border-radius: 0px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0);
+}
+.el-menu-demo > .el-menu-item {
+  margin: 0 11.5px !important;
+}
+.el-submenu__title {
+  padding: 0 11.5px !important;
+}
+
+.el-menu--popup {
+  box-shadow: 0;
 }
 
 .tab_top {
@@ -199,7 +250,7 @@ export default {
 }
 .el-menu--horizontal > .el-menu-item.is-active {
   /* border: none; */
-  height: 41px;
+  height: 55px;
 }
 .el-menu-item {
   transition: none !important;
@@ -210,12 +261,26 @@ export default {
 .el-menu.el-menu--horizontal {
   border: none;
 }
+.el-menu--horizontal > .el-submenu .el-submenu__title {
+  height: 85px;
+  line-height: 85px;
+}
 /* banner 0*/
 .banner_img {
   width: 100%;
   height: 300px;
+  margin-top: 85px;
   line-height: 300px;
   background-color: #f79623;
+}
+/*白色遮罩 */
+.white_baneer {
+  width: 100%;
+  height: 1080px;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 .banner_img > .banner_text {
   font-size: 50px;
@@ -224,11 +289,62 @@ export default {
 .mian_content {
   width: 80%;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 46px;
 }
 .el-carousel__container {
   position: relative;
   height: 500px;
+}
+.el-menu--horizontal > .el-submenu .el-submenu__icon-arrow {
+  display: none;
+}
+.el-carousel__indicators--outside {
+  display: none;
+}
+.el-carousel__arrow {
+  border: none;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  height: 30px;
+  width: 51px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0 !important;
+  background-color: rgba(31, 45, 61, 0.11);
+  color: #fff;
+  position: absolute;
+  top: 996px;
+  right: 120px;
+  transform: translateY(-50%);
+  text-align: center;
+  font-size: 12px;
+  z-index: 100;
+}
+.el-carousel__arrow--left {
+  background: url('../../assets/img/home/baner_left.png') no-repeat;
+  background-size: 25px;
+}
+.el-carousel__arrow--right {
+  background: url('../../assets/img/home/baner_right.png') no-repeat;
+  background-size: 25px;
+}
+.el-carousel__arrow > i {
+  display: none;
+}
+.el-carousel__arrow:hover {
+  background-color: rgba(31, 45, 61, 0);
+}
+/* 文字 */
+.home_title {
+  width: 150px;
+  height: 58px;
+  font-size: 50px;
+  font-family: 'GenRyuMin TW TTF';
+  font-weight: bold;
+  line-height: 25px;
+  color: rgba(255, 255, 255, 1);
+  opacity: 1;
 }
 </style>
 
