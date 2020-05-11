@@ -1,5 +1,34 @@
 <template>
   <div class="home">
+    <div class="header" v-if="path!='/index'" style="background:rgb(0,0,0);
+opacity:0.3;">
+      <el-menu
+        :default-active="activeIndex2"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="rgba(255,255,255,0)"
+        text-color="#808080"
+        active-text-color="rgb(255,255,255)"
+        style="float: right;right: 327px;"
+        router
+      >
+        <el-submenu
+          :index="item.path"
+          v-for="item in taglist"
+          :key="item.path"
+          v-if="item.children"
+        >
+          <template slot="title">{{item.name}}</template>
+          <el-menu-item
+            :index="items.path"
+            v-for="items in item.children"
+            :key="items.path"
+          >{{items.name}}</el-menu-item>
+        </el-submenu>
+        <el-menu-item :index="item.path" v-else>{{item.name}}</el-menu-item>
+      </el-menu>
+    </div>
     <el-container>
       <el-main>
         <!-- 是否首页轮播 -->
@@ -9,9 +38,8 @@
 
         <div v-else style="position: relative;">
           <div class="header">
-            <!-- <el-button plain @click.native="login">登录</el-button> -->
             <el-menu
-              :default-active="activeIndex2"
+              :default-active="activeIndex1"
               class="el-menu-demo"
               mode="horizontal"
               @select="handleSelect"
@@ -62,6 +90,7 @@ export default {
   data() {
     return {
       activeIndex2: this.$route.path, //默认高亮
+      activeIndex1: '/index', //默认高亮
       title: this.$route.meta.title,
       path: this.$route.path,
       bannerImg: [
@@ -79,16 +108,12 @@ export default {
           name: '关于净慈',
           children: [
             {
-              path: '/index11',
-              name: '首页1'
+              path: '/index/ofallages',
+              name: '古往今来'
             },
             {
-              path: '/index22',
-              name: '首页3'
-            },
-            {
-              path: '/index33',
-              name: '首页2'
+              path: '/index/Square',
+              name: '四方上下'
             }
           ]
         },
@@ -97,16 +122,16 @@ export default {
           name: '净慈动态',
           children: [
             {
-              path: '/index44',
-              name: '首页4'
+              path: '/index/WillReport',
+              name: '法会报道'
             },
             {
-              path: '/index55',
-              name: '首页44'
+              path: '/index/information',
+              name: '新闻讯息'
             },
             {
-              path: '/index66',
-              name: '首页44'
+              path: '/index/public',
+              name: '公益慈善'
             }
           ]
         },
@@ -269,7 +294,7 @@ export default {
 .banner_img {
   width: 100%;
   height: 300px;
-  margin-top: 85px;
+  margin-top: 84px;
   line-height: 300px;
   background-color: #f79623;
 }
@@ -287,7 +312,6 @@ export default {
   text-indent: 50px;
 }
 .mian_content {
-  width: 80%;
   margin: 0 auto;
   margin-top: 46px;
 }
@@ -345,6 +369,10 @@ export default {
   line-height: 25px;
   color: rgba(255, 255, 255, 1);
   opacity: 1;
+}
+.el-menu--horizontal > .el-submenu .el-submenu__title {
+  height: 55px;
+  line-height: 85px;
 }
 </style>
 
