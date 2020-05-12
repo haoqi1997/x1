@@ -76,20 +76,45 @@ const routes = [{
                 component: resolve => require(['../views/homepage/Dynamic.vue'], resolve),
             },
             {
-                path: 'figure',
-                name: '净慈人物',
+                path: 'MethodTheBoy',
+                name: '法嗣录',
                 meta: {
-                    title: '净慈人物'
+                    title: '法嗣录'
+                },
+                component: resolve => require(['../views/homepage/MethodTheBoy.vue'], resolve),
+            },
+            // 
+            {
+                path: 'Figure',
+                name: '祖师录',
+                meta: {
+                    title: '祖师录'
                 },
                 component: resolve => require(['../views/homepage/Figure.vue'], resolve),
             },
             {
                 path: 'culture',
-                name: '净慈文化',
+                name: '南屏妙音',
                 meta: {
-                    title: '净慈文化'
+                    title: '南屏妙音'
                 },
                 component: resolve => require(['../views/homepage/Culture.vue'], resolve),
+            },
+            {
+                path: 'Gallery',
+                name: '净寺美术馆',
+                meta: {
+                    title: '净寺美术馆'
+                },
+                component: resolve => require(['../views/homepage/Gallery.vue'], resolve),
+            },
+            {
+                path: 'Month',
+                name: '南屏指月',
+                meta: {
+                    title: '南屏指月'
+                },
+                component: resolve => require(['../views/homepage/Month.vue'], resolve),
             },
             {
                 path: 'law',

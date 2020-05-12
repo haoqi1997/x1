@@ -1,7 +1,7 @@
 <template >
   <div class="homesty">
-    <div class="index_title" style="    width: 80%;
-    margin: auto;">
+    <div class="index_title" style="width: 1200px;
+    margin: auto;margin-top: 46px;">
       <div class="home_text">
         <span class="home_caption">01</span>
         <div class="title_text">
@@ -464,8 +464,8 @@ export default {
   height: 320px;
   background: rgba(0, 0, 0, 1);
   opacity: 0.34;
-  background: url('../../assets/img/home/112233.png');
-  background-size: 100%;
+  background: url('../../assets/img/home/112233.png') no-repeat;
+  background-size: 100% 100%;
   position: relative;
 }
 

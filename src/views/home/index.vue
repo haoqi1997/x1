@@ -32,11 +32,19 @@ opacity:0.3;">
     <el-container>
       <el-main>
         <!-- 是否首页轮播 -->
-        <div class="banner_img" v-if="path!='/index'">
-          <p class="banner_text">{{title}}</p>
-        </div>
-
-        <div v-else style="position: relative;">
+        <!-- 头部 -->
+        <!-- <div class="banner_img" v-if="path!='/index'">
+          <div class="banner_img_cephalosome"></div>
+          <div class="banner_text">
+            <div class="across"></div>
+            {{title}}
+            <div class="alittle">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>-->
+        <div v-if="path=='/index'" style="position: relative;">
           <div class="header">
             <el-menu
               :default-active="activeIndex1"
@@ -71,9 +79,9 @@ opacity:0.3;">
               <img style="width:100%" :src="item.src" alt="轮播" />
             </el-carousel-item>
           </el-carousel>
-          <div class="white_baneer">
+          <!-- <div class="white_baneer">
             <div class="home_title">净慈寺</div>
-          </div>
+          </div>-->
         </div>
 
         <div class="mian_content">
@@ -89,7 +97,7 @@ export default {
   name: 'home',
   data() {
     return {
-      activeIndex2: this.$route.path, //默认高亮
+      activeIndex2: this.$route.path,
       activeIndex1: '/index', //默认高亮
       title: this.$route.meta.title,
       path: this.$route.path,
@@ -141,7 +149,21 @@ export default {
         },
         {
           path: '/index/culture',
-          name: '净慈文化'
+          name: '净慈文化',
+          children: [
+            {
+              path: '/index/culture',
+              name: '南屏妙音'
+            },
+            {
+              path: '/index/Gallery',
+              name: '净寺美术馆'
+            },
+            {
+              path: '/index/Month',
+              name: '南屏指月'
+            }
+          ]
         },
         {
           path: '/index/law',
@@ -177,7 +199,9 @@ export default {
       this.$router.push({ path: '/backstage/login' })
     },
     //标签变换时触发
-    handleSelect(key, keyPath) {}
+    handleSelect(key, keyPath) {
+      this.activeIndex2 = key || '/index' //默认高亮
+    }
   },
   components: {}
 }
@@ -223,7 +247,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
   flex-shrink: 0;
-  width: 99vw;
+  width: 100vw;
   position: absolute;
 
   z-index: 99;
@@ -291,13 +315,7 @@ export default {
   line-height: 85px;
 }
 /* banner 0*/
-.banner_img {
-  width: 100%;
-  height: 300px;
-  margin-top: 84px;
-  line-height: 300px;
-  background-color: #f79623;
-}
+
 /*白色遮罩 */
 .white_baneer {
   width: 100%;
@@ -307,13 +325,9 @@ export default {
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
-.banner_img > .banner_text {
-  font-size: 50px;
-  text-indent: 50px;
-}
+
 .mian_content {
   margin: 0 auto;
-  margin-top: 46px;
 }
 .el-carousel__container {
   position: relative;

@@ -1,10 +1,10 @@
 <template >
-  <div class="help_box">
+  <div>
     <!-- toubu  -->
     <div class="banner_img">
       <div class="banner_img_cephalosome"></div>
       <div class="banner_text">
-        <div class="across"></div>助建净慈
+        <div class="across"></div>南屏指月
         <div class="alittle">
           <span></span>
           <span></span>
@@ -13,9 +13,19 @@
     </div>
     <!-- 2 -->
     <div class="tagss">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="MonthName" @tab-click="handleClick">
+        <div class="tagss_tags">
+          <ul>
+            <li>
+              <img src="../../assets/img/month/biaoge.png" alt />
+            </li>
+            <li>
+              <img src="../../assets/img/month/biaodan.png" alt />
+            </li>
+          </ul>
+        </div>
         <el-tab-pane
-          v-for="item in projectList"
+          v-for="item in MonthList"
           :key="item.name"
           :label="item.label"
           :name="item.name"
@@ -27,10 +37,6 @@
                   <img :src="iten.img" alt />
                 </div>
                 <p>{{iten.name}}</p>
-                <p>
-                  ￥
-                  <span>{{iten.price}}</span> /片
-                </p>
               </li>
             </ul>
           </div>
@@ -44,50 +50,61 @@
 </template>
 <script>
 export default {
-  name: 'zhuanjian',
+  name: '',
   data() {
     return {
-      activeName: 'projectone',
-      projectList: [
+      MonthName: 'Montclassics',
+      MonthList: [
         {
-          label: '助建项目一',
-          name: 'projectone',
+          label: '佛学经典',
+          name: 'Montclassics',
           children: [
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》',
               price: '200.00'
             },
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》',
               price: '200.00'
             },
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》',
               price: '200.00'
             },
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》',
               price: '200.00'
             },
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》',
               price: '200.00'
             },
             {
-              img: require('../../assets/img/help/380200.png'),
-              name: '银熏板瓦',
-              price: '200.00'
+              img: require('../../assets/img/month/655.png'),
+              name: '《大佛顶首楞严经》'
             }
           ]
         },
         {
-          label: '助建项目二',
-          name: 'projecttwo'
+          label: '南屏禅话',
+          name: 'Monthbuddhist'
+        },
+        {
+          label: '佛教公案',
+          name: 'Monthcomplicated'
+        },
+        {
+          label: '诗词鉴赏',
+          name: 'Monthappreciate'
+        },
+        {
+          label: '佛经故事',
+          name: 'Monthstory'
         }
       ]
     }
@@ -112,7 +129,59 @@ export default {
   components: {}
 }
 </script>
-<style>
+<style >
+.banner_img {
+  width: 100%;
+  height: 500px;
+  /* margin-top: 84px; */
+  line-height: 500px;
+  /* background-color: #f79623; */
+  position: relative;
+  background: url('../../assets/img/month/500px.png') no-repeat;
+  background-size: 100% 100%;
+}
+.banner_img_cephalosome {
+  position: absolute;
+
+  width: 100%;
+  height: 500px;
+  background: rgba(0, 0, 0, 0.65);
+}
+.banner_img > .banner_text {
+  position: absolute;
+  /* width: 100%; */
+  height: 100%;
+  margin-left: 18.78%;
+  z-index: 56;
+  font-size: 60px;
+  font-family: GenRyuMin TW TTF;
+  font-weight: 400;
+  line-height: 500px;
+  color: rgba(255, 255, 255, 1);
+}
+.across {
+  position: absolute;
+  top: 30%;
+  width: 52px;
+  height: 0px;
+  border-bottom: 3px solid #fff;
+}
+.alittle {
+  position: absolute;
+  top: 64.8%;
+  right: 0;
+  height: 10%;
+  line-height: 0;
+}
+.alittle > span {
+  display: inline-block;
+  margin: 0 24px;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 50%;
+}
+/*  */
 .help_box {
   padding-bottom: 250px;
 }
@@ -183,30 +252,46 @@ export default {
 }
 .showzhuimg > ul {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 .showzhuimg > ul > li {
-  width: 30%;
+  width: 20%;
   text-align: center;
 }
-.showzhuimg > ul > li > p:nth-child(2) {
+.showzhuimg > ul > li > p:nth-child(1) {
   padding: 19px 0 7px 0;
   font-size: 20px;
-  font-family: Microsoft YaHei;
   font-weight: 400;
   color: rgba(0, 0, 0, 1);
 }
-.showzhuimg > ul > li > p:nth-child(3) {
+.showzhuimg > ul > li > p:nth-child(2) {
   font-size: 14px;
-  font-family: Microsoft YaHei;
+  padding: 41px 0 20px 0;
   font-weight: 400;
-  color: rgba(196, 196, 196, 1);
-  margin-bottom: 48px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
 }
 .showzhuimg > ul > li > .zhuimg {
-  width: 380px;
-  height: 200px;
+  width: 200px;
+  height: 260px;
+}
+.tagss_tags > ul {
+  display: flex;
+  width: 7.19%;
+  height: 35.3%;
+  cursor: pointer;
+}
+.tagss_tags > ul > li {
+  padding: 10px 15px;
+  border: 1px solid rgba(196, 196, 196, 1);
+}
+.tagss_tags > ul > li:nth-child(1) {
+  border-right: none !important;
+}
+.tagss_tags > ul > li > img {
+  width: 37px;
+  height: 36px;
 }
 .DigitalSubscript {
   position: relative;
@@ -217,7 +302,6 @@ export default {
 }
 .el-pager li {
   font-size: 20px;
-  font-family: Microsoft YaHei;
   font-weight: 400;
   color: rgba(196, 196, 196, 1);
   height: 32px !important;
@@ -230,57 +314,4 @@ export default {
 .el-pager li:hover {
   color: #000000;
 }
-/*  */
-.banner_img {
-  width: 100%;
-  height: 500px;
-  /* margin-top: 84px; */
-  line-height: 500px;
-  /* background-color: #f79623; */
-  position: relative;
-  background: url('../../assets/img/help/tou.png') no-repeat;
-  background-size: 100% 100%;
-}
-.banner_img_cephalosome {
-  position: absolute;
-
-  width: 100%;
-  height: 500px;
-  background: rgba(0, 0, 0, 0.65);
-}
-.banner_img > .banner_text {
-  position: absolute;
-  /* width: 100%; */
-  height: 100%;
-  margin-left: 18.78%;
-  z-index: 56;
-  font-size: 60px;
-  font-family: GenRyuMin TW TTF;
-  font-weight: 400;
-  line-height: 500px;
-  color: rgba(255, 255, 255, 1);
-}
-.across {
-  position: absolute;
-  top: 30%;
-  width: 52px;
-  height: 0px;
-  border-bottom: 3px solid #fff;
-}
-.alittle {
-  position: absolute;
-  top: 64.8%;
-  right: 0;
-  height: 10%;
-  line-height: 0;
-}
-.alittle > span {
-  display: inline-block;
-  margin: 0 24px;
-  width: 10px;
-  height: 10px;
-  background: rgba(255, 255, 255, 1);
-  border-radius: 50%;
-}
-/*  */
 </style>
