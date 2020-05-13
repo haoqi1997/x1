@@ -12,6 +12,7 @@
       </div>
     </div>
     <!-- 2 -->
+
     <div class="culture_miao">
       <el-table :data="tableData" style="width: 100%" row-class-name="warning-row">
         <el-table-column prop="date" label="歌名"></el-table-column>
@@ -19,7 +20,7 @@
         <el-table-column label="地址" width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text">
-              <img src="../../assets/img/culture/xiazai@2x.png" alt />
+              <img src="../../assets/img/culture/播放.png" alt />
             </el-button>
             <el-button type="text">
               <img src="../../assets/img/culture/xiazai@2x.png" alt />
@@ -28,6 +29,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <audio src id="eventAudio" controls preload>您的浏览器不支持 audio 标签。</audio>
   </div>
 </template>
 <script>
@@ -37,8 +39,19 @@ export default {
     return {
       tableData: [
         {
-          date: '《这是另一首歌》',
-          name: '时长2:55'
+          date: '《暗示》',
+          name: '时长5:14',
+          src: 'http://192.168.0.101:8091/temple/upload/大鱼.mp3'
+        },
+        {
+          date: '《荷塘月色 街舞舞曲版》',
+          name: '时长4:08',
+          src: require('../../assets/music/凤凰传奇.mp3')
+        },
+        {
+          date: '《荷塘月色-郭东昊》',
+          name: '时长3:42',
+          src: require('../../assets/music/郭东昊.mp3')
         }
       ]
     }
@@ -47,7 +60,10 @@ export default {
   mounted() {},
   methods: {
     handleClick(row) {
-      console.log('handleClick -> row', row)
+      let buttonAudio = document.getElementById('eventAudio')
+      console.log('handleClick -> buttonAudio', buttonAudio)
+      buttonAudio.setAttribute('src', row.src)
+      buttonAudio.play()
     }
   },
   components: {}
@@ -139,5 +155,12 @@ export default {
   background: 0 0;
   padding-left: 0;
   padding-right: 0;
+}
+#eventAudio {
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
 }
 </style>

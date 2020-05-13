@@ -127,21 +127,21 @@ export default {
         },
         {
           path: '/index/dynamic',
-          name: '净慈动态',
-          children: [
-            {
-              path: '/index/WillReport',
-              name: '法会报道'
-            },
-            {
-              path: '/index/information',
-              name: '新闻讯息'
-            },
-            {
-              path: '/index/public',
-              name: '公益慈善'
-            }
-          ]
+          name: '净慈动态'
+          //   children: [
+          //     {
+          //       path: '/index/WillReport',
+          //       name: '法会报道'
+          //     },
+          //     {
+          //       path: '/index/information',
+          //       name: '新闻讯息'
+          //     },
+          //     {
+          //       path: '/index/public',
+          //       name: '公益慈善'
+          //     }
+          //   ]
         },
         {
           path: '/index/figure',

@@ -15,12 +15,14 @@
     <div class="tagss">
       <el-tabs v-model="MonthName" @tab-click="handleClick">
         <div class="tagss_tags">
-          <ul>
+          <ul @click="showsty()">
             <li>
-              <img src="../../assets/img/month/biaoge.png" alt />
+              <img src="../../assets/img/month/11111.png" alt="显示" v-if="imageText" />
+              <img src="../../assets/img/month/111.png" alt="灰" v-else />
             </li>
             <li>
-              <img src="../../assets/img/month/biaodan.png" alt />
+              <img src="../../assets/img/month/22222.png" alt="灰的" v-if="!imageText" />
+              <img src="../../assets/img/month/222.png" alt="显示" v-else />
             </li>
           </ul>
         </div>
@@ -30,15 +32,30 @@
           :label="item.label"
           :name="item.name"
         >
-          <div class="showzhuimg">
+          <div class="showzhuimg" v-if="imageText">
             <ul>
-              <li v-for="(iten,index) in item.children" :key="index">
+              <li v-for="(iten,index) in item.children" :key="index" @click="Details(iten)">
                 <div class="zhuimg">
                   <img :src="iten.img" alt />
                 </div>
                 <p>{{iten.name}}</p>
               </li>
             </ul>
+          </div>
+          <div
+            class="tableshow"
+            v-else
+            v-for="(iten,index) in item.children"
+            :key="index"
+            @click="Details(iten)"
+          >
+            <div class="culture_miao">
+              <el-table :data="MonthList" style="width: 100%" row-class-name="warning-row">
+                <el-table-column prop="label" label="歌名"></el-table-column>
+                <el-table-column prop="name" label="时间" width="180"></el-table-column>
+                <el-table-column label="地址" width="100"></el-table-column>
+              </el-table>
+            </div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -53,6 +70,7 @@ export default {
   name: '',
   data() {
     return {
+      imageText: true,
       MonthName: 'Montclassics',
       MonthList: [
         {
@@ -119,6 +137,14 @@ export default {
   },
   mounted() {},
   methods: {
+    showsty() {
+      this.imageText = !this.imageText
+      console.log('showsty -> this.imageText', this.imageText)
+    },
+    Details(val) {
+      // 带查询参数，变成/backend/order?selected=2
+      this.$router.push({ name: 'onthDetails', query: { id: val } })
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },

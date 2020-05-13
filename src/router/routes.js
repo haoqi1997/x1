@@ -76,12 +76,12 @@ const routes = [{
                 component: resolve => require(['../views/homepage/Dynamic.vue'], resolve),
             },
             {
-                path: 'MethodTheBoy',
-                name: '法嗣录',
+                path: 'dynamic/details',
+                name: 'details',
                 meta: {
                     title: '法嗣录'
                 },
-                component: resolve => require(['../views/homepage/MethodTheBoy.vue'], resolve),
+                component: resolve => require(['../views/homepage/DynamicDetails.vue'], resolve),
             },
             // 
             {
@@ -115,6 +115,14 @@ const routes = [{
                     title: '南屏指月'
                 },
                 component: resolve => require(['../views/homepage/Month.vue'], resolve),
+            },
+            {
+                path: 'MonthDetails',
+                name: 'onthDetails',
+                meta: {
+                    title: '南屏指月'
+                },
+                component: resolve => require(['../views/homepage/MonthDetails.vue'], resolve),
             },
             {
                 path: 'law',

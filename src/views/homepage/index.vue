@@ -730,7 +730,7 @@ width: 19px;height: 16px;
 
 }
 .contact_bottom>p{
-    width:364px;
+width:364px;
 height:19px;
 font-size:14px;
 font-weight:400;
