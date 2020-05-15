@@ -18,11 +18,12 @@
                 <use :xlink:href="item.iconClass" />
               </svg>
               &nbsp;
+              <!-- 二级1 -->
               <span slot="title">{{ item.name }}</span>
             </template>
             <template v-for="subItem in item.childList">
               <el-submenu v-if="subItem.childList" :index="subItem.functionUrl" :key="subItem.id">
-                <template slot="title">{{ subItem.name }}111</template>
+                <template slot="title">{{ subItem.name }}</template>
                 <el-menu-item
                   v-for="(threeItem,i) in subItem.childList"
                   :key="i"
@@ -32,7 +33,7 @@
                     <use :xlink:href="item.iconClass" />
                   </svg>
                   &nbsp;
-                  {{ threeItem.name }}222
+                  {{ threeItem.name }}
                 </el-menu-item>
               </el-submenu>
               <el-menu-item
@@ -48,14 +49,14 @@
           <el-menu-item
             :index="item.functionUrl"
             :key="item.id"
-            :class="{tophome:item.name === '系统管理'}"
+            :class="{tophome:item.name === '首页'}"
           >
             <i :class="item.iconClass"></i>
             <svg class="icon" aria-hidden="true">
               <use :xlink:href="item.iconClass" />
             </svg>
             &nbsp;
-            <span slot="title">{{ item.name }}333</span>
+            <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </template>
       </template>
@@ -88,6 +89,7 @@ export default {
       //   QueryMenuButton
     },
     eClose(key) {
+      console.log('eClose -> key', key)
       this.$public.resource.QueryMenuButton(this.username, key).then(res => {
         if (res.code == '000000') {
           localStorage.setItem('buttonList', JSON.stringify(res.data))

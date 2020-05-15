@@ -38,12 +38,13 @@ opacity:0.3;">
           <div class="banner_text">
             <div class="across"></div>
             {{title}}
-            <div class="alittle">
-              <span></span>
+            <dspan></span>
               <span></span>
             </div>
-          </div>
+          </div>iv class="alittle">
+              <
         </div>-->
+        <button @click="login">后台</button>
         <div v-if="path=='/index'" style="position: relative;">
           <div class="header">
             <el-menu

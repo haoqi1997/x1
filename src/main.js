@@ -24,12 +24,12 @@ Vue.use(ServerMixin)
 
 
 // ？富文本
-// import VueQuillEditor from "vue-quill-editor"
-// import "quill/dist/quill.core.css"
-// import "quill/dist/quill.snow.css"
-// import "quill/dist/quill.bubble.css"
-// Vue.use(VueQuillEditor)
-// 修改滚动条
+import VueQuillEditor from "vue-quill-editor"
+import "quill/dist/quill.core.css"
+import "quill/dist/quill.snow.css"
+import "quill/dist/quill.bubble.css"
+Vue.use(VueQuillEditor)
+    // 修改滚动条
 Vue.config.productionTip = false
 
 import * as filters from './filter/filter'

@@ -115,4 +115,33 @@ export const base = {
             return doExec(`${apiPrefix}/resource/user/${username}/${parentId}`, opts, null, 'get')
         },
     },
+    // --------------------------关于净慈-------------------------
+    InRegards: {
+        //新增古往今来记录
+        allbeforeorsince(opts) {
+            return doExec(`${apiPrefix}/beforeorsince`, opts, null, 'post')
+        },
+        //查询详情
+        inquirebeforeorsincedetails(key, opts) {
+            return doExec(`${apiPrefix}/beforeorsince/${key}`, opts, null, 'get')
+        },
+        // 条件查询
+        inquirebeforeorsince(opts) {
+            return doExec(`${apiPrefix}/beforeorsince/conditions`, opts, 'JSON', 'post')
+        },
+        //修改古往今来记录
+        putbeforeorsince(key, opts) {
+            return doExec(`${apiPrefix}/beforeorsince/${key}`, opts, null, 'put')
+        },
+
+    },
+    // ------------------文件上传
+    //删除古往今来记录
+    file: {
+        uploadFiles(opts) {
+            return doExec(`${apiPrefix}/file/uploadFiles`, opts, "JSON", 'post')
+        },
+    }
+
+
 }

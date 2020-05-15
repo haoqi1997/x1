@@ -206,23 +206,23 @@ const routes = [{
             },
             // --------------------------------------------------权限 end
             // --------------------------------------------------编辑 start
+            // {
+            //     path: 'redact1',
+            //     name: '富文本编辑',
+            //     meta: {
+            //         title: '富文本编辑'
+            //     },
+            //     component: () =>
+            //         import ('../views/backstage/redact/Redact1.vue')
+            // },
             {
-                path: 'redact1',
-                name: '富文本编辑',
+                path: 'OfAllGes',
+                name: '古往今来',
                 meta: {
-                    title: '富文本编辑'
+                    title: '古往今来'
                 },
                 component: () =>
-                    import ('../views/backstage/redact/Redact1.vue')
-            },
-            {
-                path: 'redact2',
-                name: '编辑2',
-                meta: {
-                    title: '编辑2'
-                },
-                component: () =>
-                    import ('../views/backstage/redact/Rable2.vue')
+                    import ('../views/backstage/redact/OfAllGes.vue')
             },
             // --------------------------------------------------编辑 end
 
