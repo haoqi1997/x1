@@ -119,7 +119,7 @@ export default {
       }
       //上传开始
       var formData = new FormData()
-      formData.append('file', this.files[this.files.length - 1])
+      formData.append('files', this.files[this.files.length - 1])
       console.log(
         'readLocalFile -> this.files[this.files.length - 1]',
         this.files[this.files.length - 1]
@@ -128,7 +128,6 @@ export default {
       this.$public.file
         .uploadFiles(formData)
         .then(res => {
-          console.log('readLocalFile -> res', res)
           if (res.code == '000000') {
             this.$$message({
               message: '图片上传成功！',

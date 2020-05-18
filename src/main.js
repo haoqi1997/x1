@@ -22,8 +22,18 @@ Vue.use(ElementUI);
 import ServerMixin from './mixin/serverMixin'
 Vue.use(ServerMixin)
 
+// //组件富文本
+import '../public/UEditor/ueditor.config'
+import '../public/UEditor/ueditor.all.min'
+import '../public/UEditor/lang/zh-cn/zh-cn'
+import '../public/UEditor/ueditor.parse.min'
 
-// ？富文本
+
+
+
+
+//引入editor//富文本
+
 import VueQuillEditor from "vue-quill-editor"
 import "quill/dist/quill.core.css"
 import "quill/dist/quill.snow.css"

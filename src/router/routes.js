@@ -224,6 +224,15 @@ const routes = [{
                 component: () =>
                     import ('../views/backstage/redact/OfAllGes.vue')
             },
+            {
+                path: 'compile',
+                name: '编辑',
+                meta: {
+                    title: '编辑'
+                },
+                component: () =>
+                    import ('../views/backstage/redact/ofallges/Compile.vue')
+            },
             // --------------------------------------------------编辑 end
 
         ]

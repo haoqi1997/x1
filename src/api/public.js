@@ -119,7 +119,7 @@ export const base = {
     InRegards: {
         //新增古往今来记录
         allbeforeorsince(opts) {
-            return doExec(`${apiPrefix}/beforeorsince`, opts, null, 'post')
+            return doExec(`${apiPrefix}/beforeorsince`, opts, "json", 'post')
         },
         //查询详情
         inquirebeforeorsincedetails(key, opts) {
@@ -131,7 +131,11 @@ export const base = {
         },
         //修改古往今来记录
         putbeforeorsince(key, opts) {
-            return doExec(`${apiPrefix}/beforeorsince/${key}`, opts, null, 'put')
+            return doExec(`${apiPrefix}/beforeorsince/${key}`, opts, "json", 'put')
+        },
+        //DELETE古往今来记录
+        DELETEbeforeorsince(key, opts) {
+            return doExec(`${apiPrefix}/beforeorsince/${key}`, opts, null, 'DELETE')
         },
 
     },

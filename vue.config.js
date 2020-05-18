@@ -47,7 +47,8 @@ module.exports = {
         proxy: {
             // 系统和登录
             "/apiLoginSystem": {
-                target: "http://192.168.0.101:8600", //目标源
+                // target: "http://192.168.0.101:8600", //目标源
+                target: "http://192.168.0.254:8600/", //内网
                 changeOrgin: true,
                 pathRewrite: {
                     '^/apiLoginSystem': '' //替换

@@ -1,6 +1,6 @@
 <template>
   <div style="line-height: 1;">
-    <script id="editor" type="text/plain"></script>
+    <script id="editor" type="text/plain"></script>111
   </div>
 </template>
 <script>

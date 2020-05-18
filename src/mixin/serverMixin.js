@@ -1,7 +1,12 @@
 import * as login from '../api/public'
 import * as request from '@/api/request'
 import axios from 'axios';
-
+import {
+    dateFormat,
+    joinImgPrefix,
+    transFileUrl,
+    passPortValid
+} from '../filter/filter'
 
 // import module from 'module'
 import Vue from 'vue'
@@ -15,6 +20,14 @@ ServerMixin.install = function(v, opt) {
     v.prototype.$request = request
 
     Vue.prototype.$axios = axios;
+    // 日期格式化
+    v.prototype.$dateFormat = dateFormat
+        // 图片前缀
+    v.prototype.$joinImgPrefix = joinImgPrefix
+        // string类型的图片转list
+    v.prototype.$transFileUrl = transFileUrl
+        // 证件号码验证str 需要验证的字符串 typeCode 为字典表中的编码
+    v.prototype.$passPortValid = passPortValid
 
     v.prototype.$$message = (options) => {
         let opts = {

@@ -24,7 +24,7 @@
         </el-row>
         <el-main style="height: 100%;">
           <!-- <vue-scroll :ops="ops" style="width:100%;height:100%"> -->
-          <div style="width: 98%; padding: 20px;">
+          <div style="width: 97%; padding: 20px;">
             <div class="content">
               <transition name="move" mode="out-in">
                 <keep-alive :include="tagsList">
