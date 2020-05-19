@@ -1,5 +1,5 @@
 <template >
-  <div>编辑2</div>
+  <div>歌曲</div>
 </template>
 <script>
 export default {

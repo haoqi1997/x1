@@ -42,14 +42,14 @@ const routes = [{
                 },
                 component: resolve => require(['../views/homepage/Square.vue'], resolve),
             },
-            {
-                path: 'WillReport',
-                name: '法会报道',
-                meta: {
-                    title: '法会报道'
-                },
-                component: resolve => require(['../views/homepage/WillReport.vue'], resolve),
-            },
+            // {
+            //     path: 'WillReport',
+            //     name: '法会报道',
+            //     meta: {
+            //         title: '法会报道'
+            //     },
+            //     component: resolve => require(['../views/homepage/WillReport.vue'], resolve),
+            // },
             {
                 path: 'information',
                 name: '新闻讯息',
@@ -107,6 +107,14 @@ const routes = [{
                     title: '净寺美术馆'
                 },
                 component: resolve => require(['../views/homepage/Gallery.vue'], resolve),
+            },
+            {
+                path: 'GalleryDetails',
+                name: '美术馆详情',
+                meta: {
+                    title: '美术馆详情'
+                },
+                component: resolve => require(['../views/homepage/GalleryDetails.vue'], resolve),
             },
             {
                 path: 'Month',
@@ -204,17 +212,6 @@ const routes = [{
                 component: () =>
                     import ('../views/backstage/jurisdiction/JurisdictionAllot.vue')
             },
-            // --------------------------------------------------权限 end
-            // --------------------------------------------------编辑 start
-            // {
-            //     path: 'redact1',
-            //     name: '富文本编辑',
-            //     meta: {
-            //         title: '富文本编辑'
-            //     },
-            //     component: () =>
-            //         import ('../views/backstage/redact/Redact1.vue')
-            // },
             {
                 path: 'OfAllGes',
                 name: '古往今来',
@@ -225,14 +222,78 @@ const routes = [{
                     import ('../views/backstage/redact/OfAllGes.vue')
             },
             {
-                path: 'compile',
-                name: '编辑',
+                path: 'Orso',
+                name: '四方上下',
                 meta: {
-                    title: '编辑'
+                    title: '四方上下'
                 },
                 component: () =>
-                    import ('../views/backstage/redact/ofallges/Compile.vue')
+                    import ('../views/backstage/redact/Orso.vue')
             },
+            {
+                path: 'WillReport',
+                name: '法会报道',
+                meta: {
+                    title: '法会报道'
+                },
+                component: () =>
+                    import ('../views/backstage/dynamiccondition/WillReport')
+            },
+            {
+                path: 'Information',
+                name: '新闻讯息',
+                meta: {
+                    title: '新闻讯息'
+                },
+                component: () =>
+                    import ('../views/backstage/dynamiccondition/Information.vue')
+            },
+            {
+                path: 'Benefit',
+                name: '公益慈善',
+                meta: {
+                    title: '公益慈善'
+                },
+                component: () =>
+                    import ('../views/backstage/dynamiccondition/Benefit')
+            },
+            {
+                path: 'figure',
+                name: '净慈人物',
+                meta: {
+                    title: '净慈人物'
+                },
+                component: () =>
+                    import ('../views/backstage/figure')
+            },
+            {
+                path: 'Song',
+                name: '南屏妙音',
+                meta: {
+                    title: '南屏妙音'
+                },
+                component: () =>
+                    import ('../views/backstage/culture/Song.vue')
+            },
+            {
+                path: 'FineArts',
+                name: '美术馆',
+                meta: {
+                    title: '美术馆'
+                },
+                component: () =>
+                    import ('../views/backstage/culture/FineArts.vue')
+            },
+            {
+                path: 'Moon',
+                name: '南屏指月',
+                meta: {
+                    title: '南屏指月'
+                },
+                component: () =>
+                    import ('../views/backstage/culture/Moon.vue')
+            },
+
             // --------------------------------------------------编辑 end
 
         ]

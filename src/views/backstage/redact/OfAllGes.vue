@@ -84,10 +84,42 @@
           </div>
         </div>
 
-        <div style="margin-top: 50px;">
-          <quill-editor class="editor" :options="editorOption" v-model="form.detailHtml"></quill-editor>
+        <div style="margin-top: 50px;position: relative;">
+          <el-button
+            @click="adduploads"
+            type="primary"
+            size="small"
+            style="position: absolute;
+    right: 0;"
+          >上传照片</el-button>
+          <quill-editor
+            :id="56565"
+            class="editor"
+            ref="addQuillEditor"
+            :options="editorOption"
+            v-model="form.detailHtml"
+          ></quill-editor>
         </div>
       </el-form>
+      <el-dialog width="30%" title="上传图片" :visible.sync="addVisible" append-to-body>
+        <el-upload
+          :action="uploadUrl"
+          list-type="picture-card"
+          :on-success="editorSuccess"
+          :headers="importHeaders"
+          :on-preview="handlePictureCardPreview"
+          name="files"
+          :file-list="editorimgFilesList"
+          :before-upload="beforeAvatarUpload"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <img width="100%" :src="dialogImageUrl" alt />
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addSuccess ">确 定</el-button>
+        </div>
+      </el-dialog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitForm('dateForm')">确 定</el-button>
@@ -125,29 +157,54 @@
             </el-dialog>
           </div>
         </div>
-
+        <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
-          <el-button type="primary" size="small" style="position: absolute;
-    right: 0;">上传照片</el-button>
+          <el-button
+            @click="uploads"
+            type="primary"
+            size="small"
+            style="position: absolute;
+    right: 0;"
+          >上传照片</el-button>
           <quill-editor
             ref="myQuillEditor"
             class="editor"
+            :id="56562565"
             :options="editorOption"
             v-model="form.detailHtml"
           ></quill-editor>
         </div>
+        <!-- 富文本2 -->
       </el-form>
+      <el-dialog width="30%" title="上传图片" :visible.sync="innerVisible" append-to-body>
+        <el-upload
+          :action="uploadUrl"
+          list-type="picture-card"
+          :on-success="editorSuccess"
+          :headers="importHeaders"
+          :on-preview="handlePictureCardPreview"
+          name="files"
+          :file-list="editorimgFilesList"
+          :before-upload="beforeAvatarUpload"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <img width="100%" :src="dialogImageUrl" alt />
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="innerVisible = false">取 消</el-button>
+          <el-button type="primary" @click="Success ">确 定</el-button>
+        </div>
+      </el-dialog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="putbeforeorsince('dateForm')">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 富文本的上传 -->
   </div>
 </template>
 <script>
 import CtrlPage from 'components/component/CtrlPage'
-import imgUpload from '../../../components/component/other/upload/imgUpload'
-import UeEditor from '../../../components/component/other/UeEditor'
 import { getUserInfo } from '../../../utils/auth'
 import quillConfig from '../../../utils/quill-config'
 
@@ -155,6 +212,10 @@ export default {
   name: '',
   data() {
     return {
+      addVisible: false,
+      innerVisible: false, //内
+      editorimg: [], //富文本上传接口
+      editorimgFilesList: [], //富文本上传
       formLabelWidth: '120px',
       ofloading: true, //获取表格数据时的遮罩
       ofgettitle: '', //搜索的内容
@@ -266,7 +327,8 @@ export default {
           title: '两端对齐'
         }
       ],
-      editorOption: {}
+      editorOption: {},
+      quilllength: '' //光标位置
     }
   },
   created() {},
@@ -274,7 +336,12 @@ export default {
     this.$refs.page.getList(1)
   },
   methods: {
-    tishi() {},
+    //   富文本上传cg
+    editorSuccess(res) {
+      console.log('editorSuccess -> res', res)
+      this.editorimg.push(res.data[0])
+    },
+
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 1
       if (!isLt2M) {
@@ -303,8 +370,6 @@ export default {
       fileList.map(function(item) {
         that.imgList.push(item.response.data[0])
       })
-      console.log('handleRemove -> fileList', fileList)
-      // console.log('Remove', that.imgList);
     },
 
     // 文件上传成功时的钩子
@@ -316,17 +381,53 @@ export default {
     },
     //   点击搜索
     getUserList() {},
-    handleSuccess(res) {
+    //新增
+    adduploads() {
+      this.quilllength = ''
+      let quill = this.$refs.addQuillEditor.quill
+      this.quilllength = quill.getSelection().index || 0
+      console.log('uploads ->  quill.getSelection()', quill.getSelection())
+      this.addVisible = true
+    },
+    uploads() {
+      let quill = this.$refs.myQuillEditor.quill
+      this.quilllength = quill.getSelection().index || 0
+      this.innerVisible = true
+    },
+    // 富文本上传成功
+    addSuccess() {
       // 获取富文本组件实例
-      let quill = this.$refs.QuillEditor.quill
+      this.addVisible = false
+      let res = this.editorimg[0]
+      let quill = this.$refs.addQuillEditor.quill
       // 如果上传成功
       if (res) {
         // 获取光标所在位置
-        let length = quill.getSelection().index
         // 插入图片，res为服务器返回的图片链接地址
-        quill.insertEmbed(length, 'image', res)
+        quill.insertEmbed(this.quilllength, 'image', res)
         // 调整光标到最后
-        quill.setSelection(length + 1)
+        quill.setSelection(this.quilllength + 1)
+        this.editorimgFilesList = []
+      } else {
+        // 提示信息，需引入Message
+        Message.error('图片插入失败')
+      }
+    },
+    // 富文本上传成功
+    Success() {
+      // 获取富文本组件实例
+      this.innerVisible = false
+      let res = this.editorimg[0]
+      console.log('Success -> res', res)
+      let quill = this.$refs.myQuillEditor.quill
+      // 如果上传成功
+      if (res) {
+        // 获取光标所在位置
+        // 插入图片，res为服务器返回的图片链接地址
+        quill.insertEmbed(this.quilllength, 'image', res)
+        // 调整光标到最后
+        quill.setSelection(this.quilllength + 1)
+        this.editorimgFilesList = []
       } else {
         // 提示信息，需引入Message
         Message.error('图片插入失败')
@@ -346,9 +447,6 @@ export default {
 
       this.addFormVisible = true
       setTimeout(function() {
-        //循环加类名 把内容框中的提示信息给去掉了
-        document.getElementsByClassName('ql-editor')[0].dataset.placeholder =
-          '请编辑内容'
         // 加提示
         for (let item of _this.toolbarTips) {
           let tip = document.querySelector('.quill-editor ' + item.Choice)
@@ -381,10 +479,6 @@ export default {
           })
           this.dialogFormVisible = true
           setTimeout(function() {
-            //循环加类名 把内容框中的提示信息给去掉了
-            document.getElementsByClassName(
-              'ql-editor'
-            )[0].dataset.placeholder = '请编辑内容'
             // 加提示
             for (let item of _this.toolbarTips) {
               let tip = document.querySelector('.quill-editor ' + item.Choice)
@@ -492,7 +586,7 @@ export default {
       })
     }
   },
-  components: { CtrlPage, imgUpload, UeEditor }
+  components: { CtrlPage }
 }
 </script>
 <style>
@@ -516,5 +610,10 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.ql-image {
+  display: none !important;
+}
+.ql-editor > img {
 }
 </style>

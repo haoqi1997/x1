@@ -140,12 +140,86 @@ export const base = {
 
     },
     // ------------------文件上传
-    //删除古往今来记录
     file: {
         uploadFiles(opts) {
             return doExec(`${apiPrefix}/file/uploadFiles`, opts, "JSON", 'post')
         },
+    },
+    // -------------------------美术馆
+    exhibitionController: {
+        //新增
+        addexhibition(opts) {
+            return doExec(`${apiPrefix}/exhibition`, opts, "json", 'post')
+        },
+        //分页查询
+        exhibitionConditions(opts) {
+            return doExec(`${apiPrefix}/exhibition/conditions`, opts, "json", 'post')
+        },
+        //查询详情
+        exhibitionid(key, opts) {
+            return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'get')
+        },
+        //更新
+        putexhibitionid(key, opts) {
+            return doExec(`${apiPrefix}/exhibition/${key}`, opts, "json", 'put')
+        },
+        //DELETE记录
+        DELETEexhibition(key, opts) {
+            return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'DELETE')
+        },
+
+    },
+    // ？----------------------happening-controller净慈动态
+    happeningController: {
+
+        // 新增净慈动态
+        addhappening(opts) {
+            return doExec(`${apiPrefix}/happening`, opts, "json", 'post')
+        },
+        //分页查询
+        happeningConditions(opts) {
+            return doExec(`${apiPrefix}/happening/conditions`, opts, "json", 'post')
+        },
+        //查询详情
+        happeningid(key, opts) {
+            return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'get')
+        },
+        //更新-修改
+        // 修改净慈动态
+        puthappeningid(key, opts) {
+            return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'put')
+        },
+        //DELETE净慈动态记录
+        DELETEhappening(key, opts) {
+            return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
+        },
     }
+    // // ？----------------------happening-controller净慈动态
+    // happeningController: {
+
+    //     // 新增净慈动态
+    //     addhappening(opts) {
+    //         return doExec(`${apiPrefix}/happening`, opts, "json", 'post')
+    //     },
+    //     //分页查询
+    //     happeningConditions(opts) {
+    //         return doExec(`${apiPrefix}/happening/conditions`, opts, "json", 'post')
+    //     },
+    //     //查询详情
+    //     happeningid(key, opts) {
+    //         return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'get')
+    //     },
+    //     //更新-修改
+    //     // 修改净慈动态
+    //     puthappeningid(key, opts) {
+    //         return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'put')
+    //     },
+    //     //DELETE净慈动态记录
+    //     DELETEhappening(key, opts) {
+    //         return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
+    //     },
+    // }
+
 
 
 }

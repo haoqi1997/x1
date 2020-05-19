@@ -38,10 +38,13 @@
               </el-submenu>
               <el-menu-item
                 v-else
-                @click="eClose(subItem.id)"
+                @click="eClose(subItem.id,subItem)"
                 :index="subItem.functionUrl"
                 :key="subItem.id"
-              >{{ subItem.name }}</el-menu-item>
+              >
+                <i class="el-icon-delete"></i>
+                {{ subItem.name }}
+              </el-menu-item>
             </template>
           </el-submenu>
         </template>
@@ -88,8 +91,9 @@ export default {
       //   console.log(key, keyPath)
       //   QueryMenuButton
     },
-    eClose(key) {
-      console.log('eClose -> key', key)
+    eClose(key, data) {
+      console.log('eClose -> key', key, data)
+      localStorage.setItem('parentId', JSON.stringify(data))
       this.$public.resource.QueryMenuButton(this.username, key).then(res => {
         if (res.code == '000000') {
           localStorage.setItem('buttonList', JSON.stringify(res.data))
@@ -109,5 +113,8 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   /* min-height: 100vh; */
+}
+.el-aside {
+  text-align: initial !important;
 }
 </style>

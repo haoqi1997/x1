@@ -18,7 +18,7 @@
       </div>
       <div class="Gallerylist">
         <ul>
-          <li v-for=" (item,index) in GalleryList" :key="index">
+          <li v-for=" (item,index) in GalleryList" :key="index" @click="RoutePath(item.aaa)">
             <div>
               <img :src="item.src" alt />
             </div>
@@ -88,7 +88,14 @@ export default {
   },
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    RoutePath(val) {
+      this.$router.push({
+        path: 'GalleryDetails',
+        query: { id: val }
+      })
+    }
+  },
   components: {}
 }
 </script>

@@ -159,11 +159,32 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      data: {
+        current: '1',
+        size: '5'
+      },
+      list: []
+    }
   },
   created() {},
-  mounted() {},
-  methods: {},
+
+  mounted() {
+    this.getlist()
+  },
+  methods: {
+    getlist() {
+      this.$public.InRegards.inquirebeforeorsince(this.data).then(res => {
+        if (res.code == '000000') {
+          res.data.records.forEach((element, ket) => {
+            if (element.orderNum == 1) {
+              console.log(element)
+            }
+          })
+        }
+      })
+    }
+  },
   components: {}
 }
 </script>
