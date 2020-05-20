@@ -145,8 +145,45 @@
             <img width="100%" :src="dialogImageUrl" alt />
           </el-dialog>
         </el-form-item>
-
-        <el-form-item>
+        <!-- 富文本1 -->
+        <div style="margin-top: 50px;position: relative;">
+          <el-button
+            @click="uploads"
+            type="primary"
+            size="small"
+            style="position: absolute;
+    right: 0;"
+          >上传照片</el-button>
+          <quill-editor
+            ref="myQuillEditor"
+            class="editor"
+            :options="editorOption"
+            v-model="ruleForm.detailHtml"
+          ></quill-editor>
+        </div>
+        <!-- 富文本2 -->
+        <!-- 上传 -->
+        <el-dialog width="30%" title="上传图片" :visible.sync="innerVisible" append-to-body>
+          <el-upload
+            :action="uploadUrl"
+            list-type="picture-card"
+            :on-success="editorSuccess"
+            :headers="importHeaders"
+            :on-preview="handlePictureCardPreview"
+            name="files"
+            :file-list="editorimgFilesList"
+            :before-upload="beforeAvatarUpload"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <img width="100%" :src="dialogImageUrl" alt />
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="innerVisible = false">取 消</el-button>
+            <el-button type="primary" @click="Success ">确 定</el-button>
+          </div>
+        </el-dialog>
+        <!-- 上传 -->
+        <el-form-item style="margin-top:30px">
           <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
           <el-button @click="resetForm('ruleForm')">取消</el-button>
         </el-form-item>
@@ -160,7 +197,7 @@
         :rules="rules"
         ref="Form"
         label-width="100px"
-        class="demo-ruleForm wids"
+        class="demo-ruleForm"
       >
         <el-form-item label="标题" prop="title">
           <el-input v-model="ruleForm.title" placeholder="请输入活动标题"></el-input>
@@ -224,8 +261,8 @@
             <img width="100%" :src="dialogImageUrl" alt />
           </el-dialog>
         </el-form-item>
-        <!-- fuwenb -->
-        <!-- <div style="margin-top: 50px;position: relative;">
+        <!-- 富文本1 -->
+        <div style="margin-top: 50px;position: relative;">
           <el-button
             @click="uploads"
             type="primary"
@@ -239,9 +276,30 @@
             :options="editorOption"
             v-model="ruleForm.detailHtml"
           ></quill-editor>
-        </div>-->
-        <!-- fuwenb -->
-        <el-form-item>
+        </div>
+        <!-- 富文本2 -->
+        <!-- 上传 -->
+        <el-dialog width="30%" title="上传图片" :visible.sync="innerVisible" append-to-body>
+          <el-upload
+            :action="uploadUrl"
+            list-type="picture-card"
+            :on-success="editorSuccess"
+            :headers="importHeaders"
+            :on-preview="handlePictureCardPreview"
+            name="files"
+            :file-list="editorimgFilesList"
+            :before-upload="beforeAvatarUpload"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <img width="100%" :src="dialogImageUrl" alt />
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="innerVisible = false">取 消</el-button>
+            <el-button type="primary" @click="Success ">确 定</el-button>
+          </div>
+        </el-dialog>
+        <!-- 上传 -->
+        <el-form-item style="margin-top:30px">
           <el-button type="primary" @click="redactForm('Form')">确认编辑</el-button>
           <el-button @click="resetForm()">取消</el-button>
         </el-form-item>
@@ -306,9 +364,14 @@ export default {
         picture: '',
         sponsor: '',
         startDate: '',
-        title: '',
-        detailHtml: ''
+        title: ''
+        // detailHtml: ''
       },
+      //   11
+      innerVisible: false,
+      editorimg: [],
+      editorimgFilesList: [],
+      //   22
 
       uploadUrl: `${window.apiBase}/file/uploadFiles`,
       importHeaders: {
@@ -369,12 +432,38 @@ export default {
   },
 
   methods: {
+    //   11
+    //   富文本上传cg
+    editorSuccess(res) {
+      console.log('editorSuccess -> res', res)
+      this.editorimg.push(res.data[0])
+    },
     //点击上传时拿到富文本的位置
     uploads() {
       let quill = this.$refs.myQuillEditor.quill
-      this.quilllength = quill.getSelection().index || 0
+      this.quilllength = quill.getSelection() ? quill.getSelection().index : 0
       this.innerVisible = true
+    }, // 富文本上传成功
+    Success() {
+      // 获取富文本组件实例
+      this.innerVisible = false
+      let res = this.editorimg[0]
+      console.log('Success -> res', res)
+      let quill = this.$refs.myQuillEditor.quill
+      // 如果上传成功
+      if (res) {
+        // 获取光标所在位置
+        // 插入图片，res为服务器返回的图片链接地址
+        quill.insertEmbed(this.quilllength, 'image', res)
+        // 调整光标到最后
+        quill.setSelection(this.quilllength + 1)
+        this.editorimgFilesList = []
+      } else {
+        // 提示信息，需引入Message
+        Message.error('图片插入失败')
+      }
     },
+    //   22
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 1
       if (!isLt2M) {
@@ -413,7 +502,19 @@ export default {
     },
     //   添加
     addFineArts() {
-      this.FineArtsDataVisible = true
+      ;(this.ruleForm = {
+        address: '',
+        coSponsor: '',
+        endDate: '',
+        openTime: '',
+        picture: '',
+        sponsor: '',
+        startDate: '',
+        title: ''
+        // detailHtml: ''
+      }),
+        (this.FineArtsFilesList = []),
+        (this.FineArtsDataVisible = true)
     },
     //获取表格列表
     // pageIndex, //每行几个
@@ -514,8 +615,37 @@ export default {
       //   fileList.map(function(item) {
       //     that.imgList.push(item.response.data[0])
       //   })
+    }, // 删除用户
+    handleDelete(index, id) {
+      console.log('handleDelete -> index, id', index, id)
+      this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$public.exhibitionController.DELETEexhibition(id).then(res => {
+            console.log('handleDelete -> res', res)
+            if (res.code == '000000') {
+              this.$message({
+                message: '恭喜你，删除成功',
+                type: 'success'
+              })
+              this.$refs.page.getList(1)
+            }
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+
+      //
     }
   },
+
   components: { CtrlPage }
 }
 </script>

@@ -14,36 +14,25 @@ opacity:0.3;">
         router
       >
         <el-submenu
-          :index="item.path"
+          :index="item.frontUrl"
           v-for="item in taglist"
-          :key="item.path"
-          v-if="item.children"
+          :key="item.frontUrl"
+          @click="eClose(item)"
+          v-if="item.childList&&item.functionUrl!='dynamic'"
         >
           <template slot="title">{{item.name}}</template>
           <el-menu-item
-            :index="items.path"
-            v-for="items in item.children"
-            :key="items.path"
+            :index="items.frontUrl"
+            v-for="items in item.childList"
+            :key="items.frontUrl"
+            @click="eClose(items)"
           >{{items.name}}</el-menu-item>
         </el-submenu>
-        <el-menu-item :index="item.path" v-else>{{item.name}}</el-menu-item>
+        <el-menu-item :index="item.frontUrl" @click="eClose(item)" v-else>{{item.name}}</el-menu-item>
       </el-menu>
     </div>
     <el-container>
       <el-main>
-        <!-- 是否首页轮播 -->
-        <!-- 头部 -->
-        <!-- <div class="banner_img" v-if="path!='/index'">
-          <div class="banner_img_cephalosome"></div>
-          <div class="banner_text">
-            <div class="across"></div>
-            {{title}}
-            <dspan></span>
-              <span></span>
-            </div>
-          </div>iv class="alittle">
-              <
-        </div>-->
         <button @click="login">后台</button>
         <div v-if="path=='/index'" style="position: relative;">
           <div class="header">
@@ -59,19 +48,21 @@ opacity:0.3;">
               router
             >
               <el-submenu
-                :index="item.path"
+                :index="item.frontUrl"
                 v-for="item in taglist"
-                :key="item.path"
-                v-if="item.children"
+                @click="eClose(item)"
+                :key="item.frontUrl"
+                v-if="item.childList&&item.functionUrl!='dynamic'"
               >
                 <template slot="title">{{item.name}}</template>
                 <el-menu-item
-                  :index="items.path"
-                  v-for="items in item.children"
-                  :key="items.path"
+                  :index="items.frontUrl"
+                  v-for="items in item.childList"
+                  @click="eClose(items)"
+                  :key="items.frontUrl"
                 >{{items.name}}</el-menu-item>
               </el-submenu>
-              <el-menu-item :index="item.path" v-else>{{item.name}}</el-menu-item>
+              <el-menu-item :index="item.frontUrl" @click="eClose(item)" v-else>{{item.name}}</el-menu-item>
             </el-menu>
           </div>
           <!-- 轮播 -->
@@ -80,9 +71,6 @@ opacity:0.3;">
               <img style="width:100%" :src="item.src" alt="轮播" />
             </el-carousel-item>
           </el-carousel>
-          <!-- <div class="white_baneer">
-            <div class="home_title">净慈寺</div>
-          </div>-->
         </div>
 
         <div class="mian_content">
@@ -108,80 +96,62 @@ export default {
         { src: require('../../assets/img/home/3.jpg') }
       ],
       taglist: [
-        {
-          path: '/index',
-          name: '首页'
-        },
-        {
-          path: '/index/regards',
-          name: '关于净慈',
-          children: [
-            {
-              path: '/index/ofallages',
-              name: '古往今来'
-            },
-            {
-              path: '/index/Square',
-              name: '四方上下'
-            }
-          ]
-        },
-        {
-          path: '/index/dynamic',
-          name: '净慈动态'
-          //   children: [
-          //     {
-          //       path: '/index/WillReport',
-          //       name: '法会报道'
-          //     },
-          //     {
-          //       path: '/index/information',
-          //       name: '新闻讯息'
-          //     },
-          //     {
-          //       path: '/index/public',
-          //       name: '公益慈善'
-          //     }
-          //   ]
-        },
-        {
-          path: '/index/figure',
-          name: '净慈人物'
-        },
-        {
-          path: '/index/culture',
-          name: '净慈文化',
-          children: [
-            {
-              path: '/index/culture',
-              name: '南屏妙音'
-            },
-            {
-              path: '/index/Gallery',
-              name: '净寺美术馆'
-            },
-            {
-              path: '/index/Month',
-              name: '南屏指月'
-            }
-          ]
-        },
-        {
-          path: '/index/law',
-          name: '净慈法务'
-        },
-        {
-          path: '/index/help',
-          name: '助建净慈'
-        },
-        {
-          path: '/index/volunteer',
-          name: '净慈义工'
-        },
-        {
-          path: '/index/contactUS',
-          name: '联系我们'
-        }
+        //     {
+        //       path: '/index',
+        //       name: '首页'
+        //     },
+        //     {
+        //       path: '/index/regards',
+        //       name: '关于净慈',
+        //       children: [
+        //         {
+        //           path: '/index/OfAllGes',
+        //           name: '古往今来'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       path: '/index/dynamic',
+        //       name: '净慈动态'
+        //     },
+        //     {
+        //       path: '/index/figure',
+        //       name: '净慈人物'
+        //     },
+        //     {
+        //       path: '/index/culture',
+        //       name: '净慈文化',
+        //       children: [
+        //         {
+        //           path: '/index/culture',
+        //           name: '南屏妙音'
+        //         },
+        //         {
+        //           path: '/index/Gallery',
+        //           name: '净寺美术馆'
+        //         },
+        //         {
+        //           path: '/index/Month',
+        //           name: '南屏指月'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       path: '/index/law',
+        //       name: '净慈法务'
+        //     },
+        //     {
+        //       path: '/index/help',
+        //       name: '助建净慈'
+        //     },
+        //     {
+        //       path: '/index/volunteer',
+        //       name: '净慈义工'
+        //     },
+        //     {
+        //       path: '/index/contactUS',
+        //       name: '联系我们'
+        //     }
       ]
     }
   },
@@ -192,7 +162,9 @@ export default {
       this.path = to.path
     }
   },
-  created() {},
+  created() {
+    this.getlist()
+  },
   mounted() {},
   methods: {
     //登录
@@ -201,7 +173,24 @@ export default {
     },
     //标签变换时触发
     handleSelect(key, keyPath) {
+      console.log('handleSelect -> key, keyPath', key, keyPath)
       this.activeIndex2 = key || '/index' //默认高亮
+    },
+    getlist() {
+      this.$public.noAuthController.resourceIndex().then(res => {
+        if (res.code == '000000') {
+          this.taglist = res.data
+        }
+      })
+    },
+    eClose(data) {
+      console.log('eClose -> key', data)
+      localStorage.setItem('taglis', JSON.stringify(data))
+      //   this.$public.resource.QueryMenuButton(this.username, key).then(res => {
+      //     if (res.code == '000000') {
+      //       localStorage.setItem('buttonList', JSON.stringify(res.data))
+      //     }
+      //   })
     }
   },
   components: {}

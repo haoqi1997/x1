@@ -62,6 +62,10 @@ export default {
   name: '',
   data() {
     return {
+      data: {
+        current: '1',
+        size: '5'
+      },
       GalleryList: [
         {
           src: require('../../assets/img/Gallery/ancient-architecture-asia-bench-301614.png'),
@@ -86,7 +90,9 @@ export default {
       ]
     }
   },
-  created() {},
+  created() {
+    this.getlist()
+  },
   mounted() {},
   methods: {
     RoutePath(val) {
@@ -94,6 +100,15 @@ export default {
         path: 'GalleryDetails',
         query: { id: val }
       })
+    },
+    getlist() {
+      this.$public.exhibitionController
+        .exhibitionConditions(this.data)
+        .then(res => {
+          console.log('getlist -> res', res)
+          if (res.code == '000000') {
+          }
+        })
     }
   },
   components: {}

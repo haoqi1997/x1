@@ -24,11 +24,23 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      id: this.$route.query.id
+    }
   },
-  created() {},
+  created() {
+    // this.getlist()
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    getlist() {
+      this.$public.noAuthController.happening(this.id).then(res => {
+        console.log('handleDelete4184854 -> res', res)
+        if (res.code == '000000') {
+        }
+      })
+    }
+  },
   components: {}
 }
 </script>

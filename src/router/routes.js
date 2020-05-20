@@ -27,7 +27,7 @@ const routes = [{
             },
             // 二级1
             {
-                path: 'ofallages',
+                path: 'OfAllGes',
                 name: '古往今来',
                 meta: {
                     title: '古往今来'
@@ -79,7 +79,7 @@ const routes = [{
                 path: 'dynamic/details',
                 name: 'details',
                 meta: {
-                    title: '法嗣录'
+                    title: '动态详情'
                 },
                 component: resolve => require(['../views/homepage/DynamicDetails.vue'], resolve),
             },
@@ -93,7 +93,7 @@ const routes = [{
                 component: resolve => require(['../views/homepage/Figure.vue'], resolve),
             },
             {
-                path: 'culture',
+                path: 'music',
                 name: '南屏妙音',
                 meta: {
                     title: '南屏妙音'
@@ -214,7 +214,7 @@ const routes = [{
             },
             {
                 path: 'OfAllGes',
-                name: '古往今来',
+
                 meta: {
                     title: '古往今来'
                 },
@@ -223,7 +223,7 @@ const routes = [{
             },
             {
                 path: 'Orso',
-                name: '四方上下',
+
                 meta: {
                     title: '四方上下'
                 },
@@ -232,7 +232,7 @@ const routes = [{
             },
             {
                 path: 'WillReport',
-                name: '法会报道',
+
                 meta: {
                     title: '法会报道'
                 },
@@ -241,7 +241,7 @@ const routes = [{
             },
             {
                 path: 'Information',
-                name: '新闻讯息',
+
                 meta: {
                     title: '新闻讯息'
                 },
@@ -250,7 +250,7 @@ const routes = [{
             },
             {
                 path: 'Benefit',
-                name: '公益慈善',
+
                 meta: {
                     title: '公益慈善'
                 },
@@ -259,7 +259,7 @@ const routes = [{
             },
             {
                 path: 'figure',
-                name: '净慈人物',
+
                 meta: {
                     title: '净慈人物'
                 },
@@ -268,7 +268,7 @@ const routes = [{
             },
             {
                 path: 'Song',
-                name: '南屏妙音',
+
                 meta: {
                     title: '南屏妙音'
                 },
@@ -277,7 +277,7 @@ const routes = [{
             },
             {
                 path: 'FineArts',
-                name: '美术馆',
+
                 meta: {
                     title: '美术馆'
                 },
@@ -286,7 +286,7 @@ const routes = [{
             },
             {
                 path: 'Moon',
-                name: '南屏指月',
+
                 meta: {
                     title: '南屏指月'
                 },

@@ -17,24 +17,28 @@
         <el-tab-pane
           v-for="item in dynamicList"
           :key="item.name"
-          :label="item.label"
-          :name="item.name"
+          :id="item.code"
+          :label="item.name"
+          :name="item.functionUrl"
         >
           <div style="height:62px"></div>
           <div>
             <ul>
-              <router-link :to="{name:'details',query:{id:item.name}}" class="dynamicshowzhuimg">
-                <li v-for="(iten,index) in item.children" :key="index">
-                  <div class="dynamicimg">
-                    <img :src="iten.img" alt />
-                  </div>
-                  <div class="dynamictext">
-                    <p>{{iten.title}}</p>
-                    <p>{{iten.aaa}}</p>
-                    <p>{{iten.shijan}}</p>
-                  </div>
+              <a class="dynamicshowzhuimg">
+                <li v-for="(iten,index) in dynamicdetails" :key="index" style>
+                  <router-link :to="{name:'details',query:{id:item.name}}">
+                    <div class="dynamicimg">
+                      <img :src="iten.picture" alt />
+                    </div>
+                    <div class="dynamictext">
+                      <p>{{iten.title}}</p>
+                      <p>{{iten.synopsis}}</p>
+                      <p>{{iten.createdTime}}</p>
+                    </div>
+                  </router-link>
                 </li>
-              </router-link>
+              </a>
+              <div style="height:62px"></div>
             </ul>
           </div>
         </el-tab-pane>
@@ -48,68 +52,14 @@ export default {
   data() {
     return {
       dynamicName: 'WillReport',
-      dynamicList: [
-        {
-          label: '法会报道',
-          name: 'WillReport',
-          children: [
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            },
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            }
-          ]
-        },
-        {
-          label: '新闻资讯',
-          name: 'information',
-          children: [
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            },
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            }
-          ]
-        },
-        {
-          label: '公益慈善',
-          name: 'public',
-          children: [
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            },
-            {
-              img: require('../../assets/img/dynamic/焰口002@2x.png'),
-              title: '净慈寺己亥年“解行并举，福慧同修”华严法会圆满',
-              aaa:
-                '2019年4月25日下午，我寺己亥年“解行并举，福慧同修”华严法会功德圆满。法会期间，我寺两序大众及居士善信汇集于大雄宝殿毗卢遮那佛前，虔诚恭诵《大方广佛华严经》八十卷。',
-              shijan: '2019年4月25日'
-            }
-          ]
-        }
-      ]
+      dynamicdetails: [], //细节
+
+      dynamicList: [],
+      data: {
+        current: 1,
+        size: 10,
+        typeCode: 'report'
+      }
     }
   },
   created() {
@@ -119,11 +69,27 @@ export default {
         location.reload()
       }
     })
+    this.getlist()
   },
-  mounted() {},
+  mounted() {
+    this.dynamicList = JSON.parse(localStorage.getItem('taglis')).childList
+  },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event)
+    handleClick(tab) {
+      console.log(tab.$attrs.id)
+      this.data.typeCode = tab.$attrs.id
+      this.getlist()
+    },
+    getlist() {
+      this.$public.noAuthController
+        .noAuthhappeningConditions(this.data)
+        .then(res => {
+          console.log('handleDelete -> res', res)
+          if (res.code == '000000') {
+            this.dynamicdetails = res.data.records
+            console.log('getlist -> this.dynamicdetails', this.dynamicdetails)
+          }
+        })
     }
   },
   components: {}
@@ -138,7 +104,7 @@ export default {
 .dynamicshowzhuimg > li {
   display: flex;
 }
-.dynamicshowzhuimg > li:nth-child(1) {
+.dynamicshowzhuimg > li {
   margin-bottom: 42px;
 }
 .dynamictext {

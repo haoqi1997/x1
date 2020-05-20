@@ -144,6 +144,9 @@ export const base = {
         uploadFiles(opts) {
             return doExec(`${apiPrefix}/file/uploadFiles`, opts, "JSON", 'post')
         },
+        mp3(opts) {
+            return doExec(`${apiPrefix}/file/mp3`, opts, "JSON", 'post')
+        },
     },
     // -------------------------美术馆
     exhibitionController: {
@@ -187,13 +190,13 @@ export const base = {
         //更新-修改
         // 修改净慈动态
         puthappeningid(key, opts) {
-            return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'put')
+            return doExec(`${apiPrefix}/happening/${key}`, opts, "json", 'put')
         },
         //DELETE净慈动态记录
         DELETEhappening(key, opts) {
             return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
         },
-    }
+    },
     // // ？----------------------happening-controller净慈动态
     // happeningController: {
 
@@ -219,6 +222,48 @@ export const base = {
     //         return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
     //     },
     // }
+    noAuthController: {
+        //    首页菜单 资源列表-展示页面菜单显示
+        resourceIndex(opts) {
+            return doExec(`${apiPrefix}/noAuth/resource/index`, opts, null, 'get')
+        },
+        //    古往今来-查询详情
+        beforeOrSince(id, opts) {
+            return doExec(`${apiPrefix}/noAuth/beforeOrSince/${id}`, opts, null, 'get')
+        },
+        //    美术馆-查询详情
+        exhibition(id, opts) {
+            return doExec(`${apiPrefix}/noAuth/exhibition/${id}`, opts, null, 'get')
+        },
+        //    净慈动态-查询详情
+        happening(id, opts) {
+            return doExec(`${apiPrefix}/noAuth/happening/${id}`, opts, null, 'get')
+        },
+
+        //古往今来-条件查询
+        noAuthBeforeOrSinceConditions(opts) {
+            return doExec(`${apiPrefix}/noAuth/beforeOrSince/conditions`, opts, "json", 'post')
+        },
+        //美术馆-条件查询 分页
+        noAuthExhibitionConditions(opts) {
+            return doExec(`${apiPrefix}/noAuth/exhibition/conditions`, opts, "json", 'post')
+        },
+        //净慈动态-条件查询
+        noAuthhappeningConditions(opts) {
+            return doExec(`${apiPrefix}/noAuth/happening/conditions`, opts, "json", 'post')
+        },
+        //   资源列表-根据父级ID子集菜单
+        noAuthresource(opts) {
+            return doExec(`${apiPrefix}/noAuth/resource`, opts, "json", 'post')
+        },
+
+
+
+
+
+
+
+    }
 
 
 

@@ -102,3 +102,7 @@ body,
     min-width: 1920px;
     margin: 0 auto;
 }
+
+.ql-image {
+    display: none!important;
+}

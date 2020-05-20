@@ -66,12 +66,12 @@
           </div>
           <div>
             <el-upload
+              :class="{hide:hideUpload}"
               :action="uploadUrl"
               list-type="picture-card"
               :on-success="handleSuccess"
               :headers="importHeaders"
               :on-preview="handlePictureCardPreview"
-              :limit="1"
               name="files"
               :file-list="imgFilesList"
               :before-upload="beforeAvatarUpload"
@@ -212,6 +212,9 @@ export default {
   name: '',
   data() {
     return {
+      hideUpload: false,
+      limitCount: 1,
+      //   数量
       addVisible: false,
       innerVisible: false, //内
       editorimg: [], //富文本上传接口
@@ -246,87 +249,7 @@ export default {
           { type: 'number', message: '序号必须为数字值' }
         ]
       },
-      toolbarTips: [
-        { Choice: '.ql-bold', title: '加粗' },
-        { Choice: '.ql-italic', title: '倾斜' },
-        { Choice: '.ql-underline', title: '下划线' },
-        { Choice: '.ql-header', title: '段落格式' },
-        { Choice: '.ql-strike', title: '删除线' },
-        { Choice: '.ql-blockquote', title: '块引用' },
-        { Choice: '.ql-code-block', title: '插入代码段' },
-        { Choice: '.ql-size', title: '字体大小' },
-        { Choice: '.ql-list[value="ordered"]', title: '编号列表' },
-        { Choice: '.ql-list[value="bullet"]', title: '项目列表' },
-        { Choice: '.ql-header[value="1"]', title: 'h1' },
-        { Choice: '.ql-header[value="2"]', title: 'h2' },
-        { Choice: '.ql-align', title: '对齐方式' },
-        { Choice: '.ql-color', title: '字体颜色' },
-        { Choice: '.ql-background', title: '背景颜色' },
-        { Choice: '.ql-formats', title: '英文样式' }, //未提示
-        { Choice: '.ql-image', title: '图像' },
-        { Choice: '.ql-video', title: '视频' },
-        { Choice: '.ql-link', title: '添加链接' },
-        { Choice: '.ql-formula', title: '插入公式' },
-        { Choice: '.ql-clean', title: '清除格式' },
-        { Choice: ".ql-script[value='sub']", title: '下标' },
-        { Choice: ".ql-script[value='super']", title: '上标' },
-        { Choice: '.ql-direction ql-active', title: '光标方向' },
 
-        { Choice: '.ql-indent[value="-1"]', title: '向左缩进' },
-        { Choice: '.ql-indent[value="+1"]', title: '向右缩进' },
-        { Choice: '.ql-header .ql-picker-label', title: '标题大小' },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="1"]',
-          title: '标题一'
-        },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="2"]',
-          title: '标题二'
-        },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="3"]',
-          title: '标题三'
-        },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="4"]',
-          title: '标题四'
-        },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="5"]',
-          title: '标题五'
-        },
-        {
-          Choice: '.ql-header .ql-picker-item[data-value="6"]',
-          title: '标题六'
-        },
-        { Choice: '.ql-header .ql-picker-item:last-child', title: '标准' },
-        {
-          Choice: '.ql-size .ql-picker-item[data-value="small"]',
-          title: '小号'
-        },
-        {
-          Choice: '.ql-size .ql-picker-item[data-value="large"]',
-          title: '大号'
-        },
-        {
-          Choice: '.ql-size .ql-picker-item[data-value="huge"]',
-          title: '超大号'
-        },
-        { Choice: '.ql-size .ql-picker-item:nth-child(2)', title: '标准' },
-        { Choice: '.ql-align .ql-picker-item:first-child', title: '居左对齐' },
-        {
-          Choice: '.ql-align .ql-picker-item[data-value="center"]',
-          title: '居中对齐'
-        },
-        {
-          Choice: '.ql-align .ql-picker-item[data-value="right"]',
-          title: '居右对齐'
-        },
-        {
-          Choice: '.ql-align .ql-picker-item[data-value="justify"]',
-          title: '两端对齐'
-        }
-      ],
       editorOption: {},
       quilllength: '' //光标位置
     }
@@ -444,20 +367,7 @@ export default {
         username: ''
       }
       this.imgFilesList = []
-
       this.addFormVisible = true
-      setTimeout(function() {
-        // 加提示
-        for (let item of _this.toolbarTips) {
-          let tip = document.querySelector('.quill-editor ' + item.Choice)
-          if (!tip) continue
-          tip.setAttribute('title', item.title)
-        }
-      }, 1000)
-
-      //   this.$router.push({
-      //     path: '/backstage/compile'
-      //   })
     }, //搜索
     //确认
     editUser() {},
@@ -478,14 +388,6 @@ export default {
             id: res.data.id
           })
           this.dialogFormVisible = true
-          setTimeout(function() {
-            // 加提示
-            for (let item of _this.toolbarTips) {
-              let tip = document.querySelector('.quill-editor ' + item.Choice)
-              if (!tip) continue
-              tip.setAttribute('title', item.title)
-            }
-          }, 1000)
         }
       })
     },
@@ -525,7 +427,7 @@ export default {
         .then(() => {
           this.$public.InRegards.DELETEbeforeorsince(id).then(res => {
             console.log('handleDelete -> res', res)
-            if (src.code == '000000') {
+            if (res.code == '000000') {
               this.$message({
                 message: '恭喜你，删除成功',
                 type: 'success'
@@ -614,6 +516,10 @@ export default {
 .ql-image {
   display: none !important;
 }
-.ql-editor > img {
+.hide .el-upload--picture-card {
+  display: none;
+}
+.hide .el-upload--picture-card {
+  display: none;
 }
 </style>
