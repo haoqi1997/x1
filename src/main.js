@@ -22,15 +22,6 @@ Vue.use(ElementUI);
 import ServerMixin from './mixin/serverMixin'
 Vue.use(ServerMixin)
 
-// //组件富文本
-import '../public/UEditor/ueditor.config'
-import '../public/UEditor/ueditor.all.min'
-import '../public/UEditor/lang/zh-cn/zh-cn'
-import '../public/UEditor/ueditor.parse.min'
-
-
-
-
 
 //引入editor//富文本
 

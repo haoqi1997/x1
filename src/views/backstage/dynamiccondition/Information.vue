@@ -70,7 +70,13 @@
         </el-form-item>
         <el-form-item label="简介" prop="synopsis">
           <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input type="textarea" v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input>
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input v-model="ruleForm.picture" style="display: none !important;"></el-input>
@@ -152,7 +158,13 @@
         </el-form-item>
         <el-form-item label="简介" prop="synopsis">
           <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input type="textarea" v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input>
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input
@@ -294,7 +306,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 1
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 1MB!')
       }
       return isLt2M
     },
@@ -343,21 +355,39 @@ export default {
     Success() {
       // 获取富文本组件实例
       this.innerVisible = false
-      let res = this.editorimg[0]
-      console.log('Success -> res', res)
-      let quill = this.$refs.myQuillEditor.quill
-      // 如果上传成功
-      if (res) {
-        // 获取光标所在位置
-        // 插入图片，res为服务器返回的图片链接地址
-        quill.insertEmbed(this.quilllength, 'image', res)
-        // 调整光标到最后
-        quill.setSelection(this.quilllength + 1)
-        this.editorimgFilesList = []
-      } else {
-        // 提示信息，需引入Message
-        Message.error('图片插入失败')
-      }
+      this.editorimg.forEach(item => {
+        let res = item
+        let quill = this.$refs.myQuillEditor.quill
+        // 如果上传成功
+        if (res) {
+          // 获取光标所在位置
+          // 插入图片，res为服务器返回的图片链接地址
+          quill.insertEmbed(this.quilllength, 'image', res)
+          // 调整光标到最后
+          quill.setSelection(this.quilllength + 1)
+          this.editorimgFilesList = []
+        } else {
+          // 提示信息，需引入Message
+          Message.error('图片插入失败')
+        }
+      })
+      //   this.editorimg = []
+
+      //   let res = this.editorimg[0]
+      //   console.log('Success -> res', res)
+      //   let quill = this.$refs.myQuillEditor.quill
+      //   // 如果上传成功
+      //   if (res) {
+      //     // 获取光标所在位置
+      //     // 插入图片，res为服务器返回的图片链接地址
+      //     quill.insertEmbed(this.quilllength, 'image', res)
+      //     // 调整光标到最后
+      //     quill.setSelection(this.quilllength + 1)
+      //     this.editorimgFilesList = []
+      //   } else {
+      //     // 提示信息，需引入Message
+      //     Message.error('图片插入失败')
+      //   }
     },
     //获取表格列表
     // pageIndex, //每行几个

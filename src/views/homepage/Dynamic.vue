@@ -23,12 +23,12 @@
         >
           <div style="height:62px"></div>
           <div>
-            <ul>
+            <ul v-if="rouurl!='details'">
               <a class="dynamicshowzhuimg">
                 <li v-for="(iten,index) in dynamicdetails" :key="index" style>
-                  <router-link :to="{name:'details',query:{id:item.name}}">
+                  <router-link :to="{name:'details',query:{id:iten.id}}" style="display: flex;">
                     <div class="dynamicimg">
-                      <img :src="iten.picture" alt />
+                      <img :src="iten.picture" alt="图片" />
                     </div>
                     <div class="dynamictext">
                       <p>{{iten.title}}</p>
@@ -40,6 +40,8 @@
               </a>
               <div style="height:62px"></div>
             </ul>
+            <!-- 详情展示 -->
+            <router-view v-else></router-view>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -49,11 +51,17 @@
 <script>
 export default {
   name: '',
+  watch: {
+    $route(to, from) {
+      console.log('$route -> to, from', to.name)
+      this.rouurl = to.name
+    }
+  },
   data() {
     return {
       dynamicName: 'WillReport',
       dynamicdetails: [], //细节
-
+      rouurl: '',
       dynamicList: [],
       data: {
         current: 1,
@@ -76,6 +84,9 @@ export default {
   },
   methods: {
     handleClick(tab) {
+      if (this.rouurl == 'details') {
+        this.$router.push('/index/dynamic')
+      }
       console.log(tab.$attrs.id)
       this.data.typeCode = tab.$attrs.id
       this.getlist()

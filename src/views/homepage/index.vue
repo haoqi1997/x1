@@ -151,44 +151,26 @@ opacity:1;">/</i>
       <div class="content_three">
         <div class="content_tags">
           <ul>
-            <li class="liyellow">法会报道</li>
-            <li>新闻资讯</li>
-            <li>公益慈善</li>
+            <li class="tab_item">法会报道</li>
+            <li class="liyellow tab_item">新闻资讯</li>
+            <li class="tab_item">公益慈善</li>
           </ul>
         </div>
         <div class="tags_content">
           <ul>
-            <li>
+            <li v-for="item in DynamicList" :key="item.id" @click="particulars(item.id)">
               <div class="tags_drawing">
-                <img src="../../assets/img/home/320160.png" alt />
+                  <img :src="item.picture" alt="图片" />
               </div>
               <div class="tags_texts">
-                <p>净慈寺跨年热情高 祈福得排一个多小时</p>
+                  <p>{{item.title}}</p>
                 <p>
                   发布者：
                   <span>市民族宗教局</span>
                   <span style="display: inline-block; width: 60px;"></span>
-                  <span>2020/02/05</span>
+                  <span> {{item.createdTime}}</span>
                 </p>
-                <p>净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。</p>
-              </div>
-            </li>
-            <!-- 415125 -->
-            <span style="display: inline-block;height:36px;"></span>
-            <li>
-              <div class="tags_drawing">
-                <img src="../../assets/img/home/320160.png" alt />
-              </div>
-              <div class="tags_texts">
-                <p>净慈寺跨年热情高 祈福得排一个多小时</p>
-                <p>
-                  发布者：
-                  <span>市民族宗教局</span>
-                  <span style="display: inline-block;
-    width: 60px;"></span>
-                  <span>2020/02/05</span>
-                </p>
-                <p>净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。</p>
+                  <p>{{item.synopsis}}</p>
               </div>
             </li>
           </ul>
@@ -296,7 +278,24 @@ export default {
   name: '',
   data() {
     return {
-      activeName: 'history'
+      activeName: 'history',
+        DynamicList:[
+         
+          {
+              id:'56565626565',
+             title :"净慈寺跨年热情高 祈福得排一个多小时",
+             synopsis :"净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。",
+             createdTime :"2020/02/05",
+             picture:"http://192.168.0.254:3322/temple/upload/%E4%B9%BE%E9%9A%86%E8%AF%97%E5%BE%A1%E7%A2%91%E4%BA%AD-460800568840036352.png"
+          },
+          {
+              id:'5656565',
+             title :"净慈寺跨年热情高 祈福得排5个多小时",
+             synopsis :"净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。",
+             createdTime :"2020/02/05",
+             picture:"http://192.168.0.254:3322/temple/upload/%E4%B9%BE%E9%9A%86%E8%AF%97%E5%BE%A1%E7%A2%91%E4%BA%AD-460800568840036352.png"
+          },
+      ]
     }
   },
   created() {},
@@ -304,6 +303,12 @@ export default {
   methods: {
     handleClick(tab, event) {
       console.log(tab, event)
+    },
+    particulars(val){
+    console.log("particulars -> val", val)
+    // this.$router.push(/index/dynamic/details?id=460800709399552000)
+        // this.$router.push({path:"/index/dynamic/details",params:{id:val}})
+
     }
   },
   components: {}
@@ -607,6 +612,7 @@ export default {
 .tags_content > ul > li {
   display: flex;
   justify-content: space-between;
+  margin-bottom:36px ;
 }
 .tags_content > ul > li > .tags_drawing {
   width: 320px;

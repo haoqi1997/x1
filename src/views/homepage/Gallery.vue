@@ -1,4 +1,5 @@
 <template >
+  <!-- <el-backtop target=".page-component__scroll .el-scrollbar__wrap"> -->
   <div>
     <!-- toubu  -->
     <div class="banner_img">
@@ -13,32 +14,59 @@
     </div>
     <!-- 2 -->
     <div class="Gallery_main">
-      <div class="Gallery_title">
-        <span>已经结束</span>
+      <div class="Gallery_title" v-show="this.GalleryList.length>=0">
+        <span>正在展出</span>
+      </div>
+
+      <div style="position: absolute;
+    right:70px;
+    top: 0px;">
+        <div>
+          <el-row :gutter="1">
+            <el-col :span="15">
+              <el-date-picker
+                v-model="Dateshijian"
+                type="daterange"
+                align="right"
+                unlink-panels
+                @blur="getlist"
+                value-format="yyyy-MM-dd"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
+            </el-col>
+            <el-col :span="9">
+              <el-input placeholder="请输入标题" clearable @clear="getlist" v-model="data.title">
+                <el-button slot="append" icon="el-icon-search" @click="getlist"></el-button>
+              </el-input>
+            </el-col>
+          </el-row>
+        </div>
       </div>
       <div class="Gallerylist">
         <ul>
-          <li v-for=" (item,index) in GalleryList" :key="index" @click="RoutePath(item.aaa)">
+          <li v-for=" (item,index) in GalleryList" :key="index" @click="RoutePath(item.id)">
             <div>
-              <img :src="item.src" alt />
+              <img :src="item.picture" alt="活动照片" />
             </div>
             <div class="Gallery_introduce">
               <p>{{item.title}}</p>
               <p>
                 <span>展览时间：</span>
-                {{item.aaa}}
+                {{item.openTime}}
               </p>
               <p>
                 <span>主办单位：</span>
-                {{item.bbb}}
+                {{item.sponsor}}
               </p>
               <p>
                 <span>展览场地：</span>
-                {{item.ccc}}
+                {{item.address}}
               </p>
               <p>
                 <span>开放时间：</span>
-                {{item.ddd}}
+                {{item.startDate}}-{{item.endDate}}
               </p>
               <div class="Gallery_synopsis">
                 <p style="float:left;">
@@ -47,8 +75,50 @@
                     <span style="float:right;">介：</span>
                   </span>
                 </p>
-                <p style="float:right;width:497px;
-height:181px;">{{item.eee}}</p>
+                <div class="jianjie">{{item.synopsis}}</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="Gallery_main">
+      <div class="Gallery_title">
+        <span>已经结束</span>
+      </div>
+      <div class="Gallerylist">
+        <ul>
+          <li v-for=" (item,index) in GalleryList" :key="index" @click="RoutePath(item.id)">
+            <div>
+              <img :src="item.picture" alt />
+            </div>
+            <div class="Gallery_introduce">
+              <p>{{item.title}}</p>
+              <p>
+                <span>展览时间：</span>
+                {{item.openTime}}
+              </p>
+              <p>
+                <span>主办单位：</span>
+                {{item.sponsor}}
+              </p>
+              <p>
+                <span>展览场地：</span>
+                {{item.address}}
+              </p>
+              <p>
+                <span>开放时间：</span>
+                {{item.startDate}}-{{item.endDate}}
+              </p>
+              <div class="Gallery_synopsis">
+                <p style="float:left;">
+                  <span>
+                    简
+                    <span style="float:right;">介：</span>
+                  </span>
+                </p>
+                <div class="jianjie">{{item.synopsis}}</div>
               </div>
             </div>
           </li>
@@ -56,6 +126,7 @@ height:181px;">{{item.eee}}</p>
       </div>
     </div>
   </div>
+  <!-- </el-backtop> -->
 </template>
 <script>
 export default {
@@ -64,49 +135,49 @@ export default {
     return {
       data: {
         current: '1',
-        size: '5'
+        size: '5',
+        entDate: '',
+        startDate: '',
+        title: ''
       },
-      GalleryList: [
-        {
-          src: require('../../assets/img/Gallery/ancient-architecture-asia-bench-301614.png'),
-          title: '“慧日峰下——宋代僧家茶事”展',
-          aaa: '2020年1月5日—4月5日',
-          bbb: '杭州净慈寺美术馆',
-          ccc: '杭州净慈寺美术馆（杭州市南山路56号）',
-          ddd: '8:00-16:00（节假日正常开放）',
-          eee:
-            '“茶为国饮，杭为茶都”，茶是杭州的骄傲，更是中国的骄傲。宋代“ 荐绅之士，韦布之流，沐浴膏泽，熏陶德化，盛以雅尚相推，从事茗饮”，同时“以豪华相尚，以俭陋相訾。愈厌而好新，月异而岁殊”，这时的茶道既崇尚“雅”，由于“理学”的约束而内敛、自省，又求新斗奇，奢靡之风盛行，这点在宋代各式各样不同风格的饮茶器中表现得淋漓尽致。在这个文人巧匠能才辈出的时代，茶事艺术和制瓷工艺得以融会贯通。这还是一个承上启下的时代，不仅继承了唐人开创的茶文化，并为元明清茶文化的发展开辟了新的前景。'
-        },
-        {
-          src: require('../../assets/img/Gallery/ancient-architecture-asia-bench-301614.png'),
-          title: '“慧日峰下——宋代僧家茶事”展',
-          aaa: '2020年1月5日—4月5日',
-          bbb: '杭州净慈寺美术馆',
-          ccc: '杭州净慈寺美术馆（杭州市南山路56号）',
-          ddd: '8:00-16:00（节假日正常开放）',
-          eee:
-            '“茶为国饮，杭为茶都”，茶是杭州的骄傲，更是中国的骄傲。宋代“ 荐绅之士，韦布之流，沐浴膏泽，熏陶德化，盛以雅尚相推，从事茗饮”，同时“以豪华相尚，以俭陋相訾。愈厌而好新，月异而岁殊”，这时的茶道既崇尚“雅”，由于“理学”的约束而内敛、自省，又求新斗奇，奢靡之风盛行，这点在宋代各式各样不同风格的饮茶器中表现得淋漓尽致。在这个文人巧匠能才辈出的时代，茶事艺术和制瓷工艺得以融会贯通。这还是一个承上启下的时代，不仅继承了唐人开创的茶文化，并为元明清茶文化的发展开辟了新的前景。'
-        }
-      ]
+      GalleryList: [],
+      show2: false,
+      Dateshijian: ''
+    }
+  },
+  watch: {
+    Dateshijian() {
+      ;(this.data.entDate = this.Dateshijian[0]),
+        (this.data.startDate = this.Dateshijian[1])
+      // this.Dateshijian.forEach(element => {})
     }
   },
   created() {
+    $(document).ready(function() {
+      if (location.href.indexOf('#reloaded') == -1) {
+        location.href = location.href + '#reloaded'
+        location.reload()
+      }
+    })
     this.getlist()
   },
   mounted() {},
   methods: {
     RoutePath(val) {
+      console.log('RoutePath -> val', val)
       this.$router.push({
         path: 'GalleryDetails',
         query: { id: val }
       })
     },
     getlist() {
-      this.$public.exhibitionController
-        .exhibitionConditions(this.data)
+      this.$public.noAuthController
+        .noAuthExhibitionConditions(this.data)
         .then(res => {
           console.log('getlist -> res', res)
           if (res.code == '000000') {
+            this.GalleryList = res.data.records
+            console.log('getlist -> this.GalleryList', this.GalleryList)
           }
         })
     }
@@ -129,13 +200,14 @@ export default {
   margin-top: 2.78%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .Gallerylist > ul > li {
   width: 45%;
 }
 .Gallerylist > ul > li > div {
-  width: 573px;
-  height: 349px;
+  /* width: 573px;
+  height: 349px; */
 }
 
 .banner_img {
@@ -189,7 +261,7 @@ export default {
 }
 .Gallery_main {
   width: 63.1%;
-
+  position: relative;
   margin: 3.29% auto;
 }
 .Gallery_title {
@@ -230,5 +302,43 @@ export default {
   font-weight: bold;
   color: rgba(0, 0, 0, 1);
   opacity: 1;
+}
+.jianjie {
+  float: right;
+  width: 497px;
+  height: 60px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.Gallery_main > .el-button {
+  background: #000;
+  width: 57px;
+  height: 57px;
+  border-radius: 0 !important;
+}
+.el-button:focus,
+.el-button:hover {
+  border-color: #c6e2ff;
+  background-color: #ecf5ff;
+  color: #fff;
+  background: rgb(27, 27, 27);
+}
+.el-input-group__append,
+.el-input-group__prepend {
+  background-color: #000000;
+  color: #909399;
+  vertical-align: middle;
+  display: table-cell;
+  position: relative;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  padding: 0 20px;
+  width: 1px;
+  white-space: nowrap;
+}
+.el-input__inner {
+  border: 1px solid #000;
 }
 </style>

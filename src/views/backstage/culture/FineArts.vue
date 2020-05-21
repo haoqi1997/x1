@@ -121,6 +121,15 @@
         <el-form-item label="协办单位" prop="coSponsor">
           <el-input v-model="ruleForm.coSponsor" placeholder="请选择协办单位"></el-input>
         </el-form-item>
+        <el-form-item label="简介" prop="synopsis">
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input
             v-model="ruleForm.picture"
@@ -132,7 +141,6 @@
             list-type="picture-card"
             :on-success="FineArtsSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
             :limit="1"
@@ -141,9 +149,6 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
         </el-form-item>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
@@ -169,14 +174,13 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
+
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -236,6 +240,15 @@
         <el-form-item label="协办单位" prop="coSponsor">
           <el-input v-model="ruleForm.coSponsor" placeholder="请选择协办单位"></el-input>
         </el-form-item>
+        <el-form-item label="简介" prop="synopsis">
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input
             v-model="ruleForm.picture"
@@ -248,7 +261,6 @@
             ref="uplo"
             :on-success="FineArtsSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
             :limit="1"
@@ -257,9 +269,6 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
         </el-form-item>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
@@ -285,14 +294,13 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
+
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -300,7 +308,7 @@
         </el-dialog>
         <!-- 上传 -->
         <el-form-item style="margin-top:30px">
-          <el-button type="primary" @click="redactForm('Form')">确认编辑</el-button>
+          <el-button type="primary" @click="redactForm('Form')">确认修改</el-button>
           <el-button @click="resetForm()">取消</el-button>
         </el-form-item>
       </el-form>
@@ -379,6 +387,9 @@ export default {
       },
       rules: {
         title: [{ required: true, message: '请输入活动标题', trigger: 'blur' }],
+        synopsis: [
+          { required: true, message: '请输入活动简介', trigger: 'blur' }
+        ],
         openTime: [
           { required: true, message: '请输入开放时间', trigger: 'blur' }
         ],
@@ -467,7 +478,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 1
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 1MB!')
       }
       return isLt2M
     },
@@ -573,7 +584,8 @@ export default {
         picture: this.ruleForm.picture,
         sponsor: this.ruleForm.sponsor,
         startDate: this.ruleForm.startDate,
-        title: this.ruleForm.title
+        title: this.ruleForm.title,
+        synopsis: this.ruleForm.synopsis
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -602,11 +614,7 @@ export default {
       this.FineArtsDataVisible = false
       this.$refs[formName].resetFields()
     },
-    handlePictureCardPreview(file) {
-      console.log('handlePictureCardPreview -> file', file)
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
+
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       this.ruleForm.picture = ''
@@ -676,5 +684,11 @@ export default {
 }
 .wids {
   width: 460px;
+}
+.el-table td,
+.el-table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>

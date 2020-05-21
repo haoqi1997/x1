@@ -174,15 +174,17 @@ export default {
   },
   methods: {
     getlist() {
-      this.$public.InRegards.inquirebeforeorsince(this.data).then(res => {
-        if (res.code == '000000') {
-          res.data.records.forEach((element, ket) => {
-            if (element.orderNum == 1) {
-              console.log(element)
-            }
-          })
-        }
-      })
+      this.$public.noAuthController
+        .noAuthBeforeOrSinceConditions(this.data)
+        .then(res => {
+          if (res.code == '000000') {
+            res.data.records.forEach((element, ket) => {
+              if (element.orderNum == 1) {
+                console.log(element)
+              }
+            })
+          }
+        })
     }
   },
   components: {}

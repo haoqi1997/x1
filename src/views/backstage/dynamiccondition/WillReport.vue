@@ -70,7 +70,13 @@
         </el-form-item>
         <el-form-item label="简介" prop="synopsis">
           <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input type="textarea" v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input>
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input v-model="ruleForm.picture" style="display: none !important;"></el-input>
@@ -152,7 +158,13 @@
         </el-form-item>
         <el-form-item label="简介" prop="synopsis">
           <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input type="textarea" v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input>
+          <el-input
+            type="textarea"
+            v-model="ruleForm.synopsis"
+            placeholder="请输入简介"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="上传照片" prop="picture">
           <el-input
@@ -295,9 +307,10 @@ export default {
       this.innerVisible = true
     },
     beforeAvatarUpload(file) {
+      console.log('beforeAvatarUpload -> file', file)
       const isLt2M = file.size / 1024 / 1024 < 1
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 1MB!')
       }
       return isLt2M
     },

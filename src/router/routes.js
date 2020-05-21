@@ -50,22 +50,22 @@ const routes = [{
             //     },
             //     component: resolve => require(['../views/homepage/WillReport.vue'], resolve),
             // },
-            {
-                path: 'information',
-                name: '新闻讯息',
-                meta: {
-                    title: '新闻讯息'
-                },
-                component: resolve => require(['../views/homepage/Information.vue'], resolve),
-            },
-            {
-                path: 'public',
-                name: '公益慈善',
-                meta: {
-                    title: '公益慈善'
-                },
-                component: resolve => require(['../views/homepage/Public.vue'], resolve),
-            },
+            // {
+            //     path: 'information',
+            //     name: '新闻讯息',
+            //     meta: {
+            //         title: '新闻讯息'
+            //     },
+            //     component: resolve => require(['../views/homepage/Information.vue'], resolve),
+            // },
+            // {
+            //     path: 'public',
+            //     name: '公益慈善',
+            //     meta: {
+            //         title: '公益慈善'
+            //     },
+            //     component: resolve => require(['../views/homepage/Public.vue'], resolve),
+            // },
             // 二级2
             {
                 path: 'dynamic',
@@ -74,15 +74,16 @@ const routes = [{
                     title: '净慈动态'
                 },
                 component: resolve => require(['../views/homepage/Dynamic.vue'], resolve),
+                children: [{
+                    path: 'details',
+                    name: 'details',
+                    meta: {
+                        title: '动态详情'
+                    },
+                    component: resolve => require(['../views/homepage/DynamicDetails.vue'], resolve),
+                }, ]
             },
-            {
-                path: 'dynamic/details',
-                name: 'details',
-                meta: {
-                    title: '动态详情'
-                },
-                component: resolve => require(['../views/homepage/DynamicDetails.vue'], resolve),
-            },
+
             // 
             {
                 path: 'Figure',

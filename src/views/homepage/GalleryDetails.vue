@@ -3,47 +3,84 @@
     <!-- toubu  -->
     <div class="banner_img">
       <div class="banner_img_cephalosome"></div>
-      <div class="banner_text">“慧日峰下——宋代僧家茶事”展</div>
+      <div class="banner_text">{{this.gallerylist.title}}</div>
     </div>
     <!-- 2 -->
+    <div style="height:549px;background:rgba(247,247,247,1);">
+      <div style="width:64%;margin:auto;padding-top:4.21%">
+        <div class="Gallery_title">
+          <span>正在展出</span>
+        </div>
+
+        <div style="display:flex; position: relative;">
+          <div class="zhanshi">
+            <p>【展览信息】</p>
+            <p>
+              <span>1、展览名称：</span>
+              {{this.gallerylist.title}}
+            </p>
+            <p>
+              <span>2、主办单位：</span>
+              {{this.gallerylist.sponsor}}
+            </p>
+            <p>
+              <span>3、协办单位：</span>
+              {{this.gallerylist.coSponsor}}
+            </p>
+            <p>
+              <span>4、展 期：</span>
+              {{this.gallerylist.startDate}}-{{this.gallerylist.endDate}}
+            </p>
+            <p>
+              <span>5、展览地址：</span>
+              {{this.gallerylist.address}}
+            </p>
+            <p>
+              <span>6、美术馆开放时间：</span>
+              {{this.gallerylist.openTime}}
+            </p>
+          </div>
+          <div style="width:585px;
+height:261px; position: absolute;top:2px;right:2px">
+            <img src="../../assets/img/Gallery/building-1007425@2x.png" alt />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width:64%;margin:auto;padding-top:4.21%">
+      <div v-html="this.gallerylist.detailHtml"></div>
+    </div>
+    <div style="height:100px"></div>
   </div>
 </template>
 <script>
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      id: this.$route.query.id,
+      gallerylist: []
+    }
   },
   created() {},
-  mounted() {},
-  methods: {},
+  mounted() {
+    console.log('data -> id', this.id)
+    this.getlist()
+  },
+  methods: {
+    getlist() {
+      this.$public.noAuthController.exhibition(this.id).then(res => {
+        console.log('getlist -> res', res)
+        if (res.code == '000000') {
+          this.gallerylist = res.data
+        }
+      })
+    }
+  },
   components: {}
 }
 </script>
 <style >
-.Gallery_synopsis {
-  font-size: 14px;
-  font-weight: 400;
-  color: rgba(128, 128, 128, 1);
-}
-.Gallery_synopsis > p:nth-child(1) {
-  width: 71px;
-  height: 19px;
-  font-size: 14px;
-}
-.Gallerylist > ul {
-  margin-top: 2.78%;
-  display: flex;
-  justify-content: space-between;
-}
-.Gallerylist > ul > li {
-  width: 45%;
-}
-.Gallerylist > ul > li > div {
-  width: 573px;
-  height: 349px;
-}
-
 .banner_img {
   width: 100%;
   height: 500px;
@@ -71,19 +108,6 @@ export default {
   line-height: 500px;
   color: rgba(255, 255, 255, 1);
 }
-.across {
-  position: absolute;
-  top: 30%;
-  width: 52px;
-  height: 0px;
-  border-bottom: 3px solid #fff;
-}
-
-.Gallery_main {
-  width: 63.1%;
-
-  margin: 3.29% auto;
-}
 .Gallery_title {
   width: 80px;
   background: rgba(0, 0, 0, 1);
@@ -97,30 +121,10 @@ export default {
   color: rgba(255, 255, 255, 1);
   opacity: 1;
 }
-.Gallery_introduce {
-  padding-top: 3.526%;
-}
-.Gallery_introduce > p {
+.zhanshi > p {
+  margin-top: 7%;
   font-size: 14px;
   font-weight: 400;
-  color: rgba(128, 128, 128, 1);
-  opacity: 1;
-  padding-bottom: 12px;
-}
-.Gallery_introduce > p > span {
-  display: inline-block;
-  width: 71px;
-  height: 19px;
-  font-size: 14px;
-  font-weight: 400;
-  color: rgba(128, 128, 128, 1);
-}
-.Gallery_introduce > p:nth-child(1) {
-  height: 47px;
-  font-size: 20px;
-  font-family: GenRyuMin TW TTF;
-  font-weight: bold;
   color: rgba(0, 0, 0, 1);
-  opacity: 1;
 }
 </style>
