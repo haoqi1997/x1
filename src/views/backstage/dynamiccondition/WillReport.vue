@@ -88,7 +88,6 @@
             :headers="importHeaders"
             :on-remove="handleRemove"
             name="files"
-            :limit="1"
             :on-change="handleChange"
             :file-list="FineArtsFilesList"
             :before-upload="beforeAvatarUpload"
@@ -308,9 +307,9 @@ export default {
     },
     beforeAvatarUpload(file) {
       console.log('beforeAvatarUpload -> file', file)
-      const isLt2M = file.size / 1024 / 1024 < 1
+      const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 10MB!')
       }
       return isLt2M
     },
@@ -345,14 +344,15 @@ export default {
     },
     //   添加
     addFineArts() {
-      ;(this.ruleForm = {
-        picture: '',
-        synopsis: '',
-        title: '',
-        typeCode: 'report',
-        detailHtml: ''
-      }),
-        (this.FineArtsFilesList = [])
+      ;(this.hideUpload = false),
+        (this.ruleForm = {
+          picture: '',
+          synopsis: '',
+          title: '',
+          typeCode: 'report',
+          detailHtml: ''
+        })
+      this.FineArtsFilesList = []
       this.FineArtsDataVisible = true
     },
     // 富文本上传成功

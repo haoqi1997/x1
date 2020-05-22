@@ -19,7 +19,7 @@
         </ul>
       </div>
     </div>-->
-    <div class="handleDelete" v-html="this.detailHtml"></div>
+    <div class="handleDelete ql-editor" v-html="this.detailHtml"></div>
   </div>
 </template>
 <script>

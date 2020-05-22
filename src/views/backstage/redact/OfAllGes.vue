@@ -26,7 +26,7 @@
       >
         <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
-        <!-- <el-table-column prop="detailHtml" label="内容"></el-table-column> -->
+        <el-table-column prop="orderNum" label="排序"></el-table-column>
 
         <el-table-column label="操作">
           <!-- 编辑用户 -->
@@ -71,27 +71,24 @@
               list-type="picture-card"
               :on-success="handleSuccess"
               :headers="importHeaders"
-              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
               name="files"
+              :on-change="handleChange"
               :file-list="imgFilesList"
-              :before-upload="beforeAvatarUpload"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt />
-            </el-dialog>
           </div>
         </div>
 
         <div style="margin-top: 50px;position: relative;">
-          <el-button
+          <!-- <el-button
             @click="adduploads"
             type="primary"
             size="small"
             style="position: absolute;
     right: 0;"
-          >上传照片</el-button>
+          >上传照片</el-button>-->
           <quill-editor
             :id="56565"
             class="editor"
@@ -103,14 +100,15 @@
       </el-form>
       <el-dialog width="30%" title="上传图片" :visible.sync="addVisible" append-to-body>
         <el-upload
+          :class="{hide:hideUpload}"
           :action="uploadUrl"
           list-type="picture-card"
           :on-success="editorSuccess"
+          :on-change="handleChange"
+          :on-remove="handleRemove"
           :headers="importHeaders"
-          :on-preview="handlePictureCardPreview"
           name="files"
           :file-list="editorimgFilesList"
-          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -140,32 +138,30 @@
           </div>
           <div>
             <el-upload
+              :class="{hide:hideUpload}"
               :action="uploadUrl"
               list-type="picture-card"
               :on-success="handleSuccess"
+              :on-change="handleChange"
               :headers="importHeaders"
-              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
               :limit="1"
               name="files"
               :file-list="imgFilesList"
-              :before-upload="beforeAvatarUpload"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt />
-            </el-dialog>
           </div>
         </div>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
-          <el-button
+          <!-- <el-button
             @click="uploads"
             type="primary"
             size="small"
             style="position: absolute;
     right: 0;"
-          >上传照片</el-button>
+          >上传照片</el-button>-->
           <quill-editor
             ref="myQuillEditor"
             class="editor"
@@ -182,10 +178,8 @@
           list-type="picture-card"
           :on-success="editorSuccess"
           :headers="importHeaders"
-          :on-preview="handlePictureCardPreview"
           name="files"
           :file-list="editorimgFilesList"
-          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -259,19 +253,17 @@ export default {
     this.$refs.page.getList(1)
   },
   methods: {
+    //超出限制数隐藏
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount
+      console.log('handleChange -> hideUpload', this.hideUpload)
+    },
     //   富文本上传cg
     editorSuccess(res) {
       console.log('editorSuccess -> res', res)
       this.editorimg.push(res.data[0])
     },
 
-    beforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 1
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 1MB!')
-      }
-      return isLt2M
-    },
     getContent() {
       console.log('content', this.content)
     },
@@ -281,15 +273,13 @@ export default {
     onEditorFocus($event) {
       console.log('$event', $event)
     },
-    handlePictureCardPreview(file) {
-      console.log('handlePictureCardPreview -> file', file)
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
+
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       let that = this
       that.imgList = []
+      //   alert(526)
+      this.hideUpload = fileList.length >= this.limitCount
       fileList.map(function(item) {
         that.imgList.push(item.response.data[0])
       })
@@ -359,13 +349,14 @@ export default {
     // 添加
     adduser() {
       const _this = this
-      this.form = {
-        detailHtml: '',
-        orderNum: 0,
-        picture: '',
-        title: '',
-        username: ''
-      }
+      ;(_this.hideUpload = false),
+        (this.form = {
+          detailHtml: '',
+          orderNum: 0,
+          picture: '',
+          title: '',
+          username: ''
+        })
       this.imgFilesList = []
       this.addFormVisible = true
     }, //搜索
@@ -387,6 +378,7 @@ export default {
             name: res.data.title,
             id: res.data.id
           })
+          this.hideUpload = this.imgFilesList.length >= this.limitCount
           this.dialogFormVisible = true
         }
       })

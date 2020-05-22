@@ -106,3 +106,13 @@ body,
 .ql-image {
     display: none!important;
 }
+
+.el-table td,
+.el-table th {
+    overflow: hidden;
+}
+
+.ql-editor img {
+    width: 50%;
+    margin: auto;
+}

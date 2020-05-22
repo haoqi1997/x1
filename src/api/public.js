@@ -197,31 +197,6 @@ export const base = {
             return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
         },
     },
-    // // ？----------------------happening-controller净慈动态
-    // happeningController: {
-
-    //     // 新增净慈动态
-    //     addhappening(opts) {
-    //         return doExec(`${apiPrefix}/happening`, opts, "json", 'post')
-    //     },
-    //     //分页查询
-    //     happeningConditions(opts) {
-    //         return doExec(`${apiPrefix}/happening/conditions`, opts, "json", 'post')
-    //     },
-    //     //查询详情
-    //     happeningid(key, opts) {
-    //         return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'get')
-    //     },
-    //     //更新-修改
-    //     // 修改净慈动态
-    //     puthappeningid(key, opts) {
-    //         return doExec(`${apiPrefix}/exhibition/${key}`, opts, null, 'put')
-    //     },
-    //     //DELETE净慈动态记录
-    //     DELETEhappening(key, opts) {
-    //         return doExec(`${apiPrefix}/happening/${key}`, opts, null, 'DELETE')
-    //     },
-    // }
     noAuthController: {
         //    首页菜单 资源列表-展示页面菜单显示
         resourceIndex(opts) {
@@ -244,6 +219,10 @@ export const base = {
         noAuthBeforeOrSinceConditions(opts) {
             return doExec(`${apiPrefix}/noAuth/beforeOrSince/conditions`, opts, "json", 'post')
         },
+        //南屏妙音-条件查询
+        noAuthaudioFileConditions(opts) {
+            return doExec(`${apiPrefix}/noAuth/audioFile/conditions`, opts, "json", 'post')
+        },
         //美术馆-条件查询 分页
         noAuthExhibitionConditions(opts) {
             return doExec(`${apiPrefix}/noAuth/exhibition/conditions`, opts, "json", 'post')
@@ -256,14 +235,33 @@ export const base = {
         noAuthresource(opts) {
             return doExec(`${apiPrefix}/noAuth/resource`, opts, "json", 'post')
         },
-
-
-
-
-
-
-
+    },
+    // --------------------------------------南屏妙音----------------------
+    audioFileController: {
+        // 新增南屏妙音记录
+        adsdaudioFile(opts) {
+            return doExec(`${apiPrefix}/audioFile`, opts, "json", 'post')
+        },
+        // 查询详情
+        audioFileid(id, opts) {
+            return doExec(`${apiPrefix}/audioFile/${id}`, opts, null, 'get')
+        },
+        // 修改记录
+        putaudioFile(id, opts) {
+            return doExec(`${apiPrefix}/audioFile/${id}`, opts, "json", 'put')
+        },
+        // 删除
+        DELETEaudioFile(id, opts) {
+            return doExec(`${apiPrefix}/audioFile/${id}`, opts, null, 'DELETE')
+        },
+        //         /audioFile/conditions
+        // 条件查询
+        //查询详情
+        audioFileConditions(opts) {
+            return doExec(`${apiPrefix}/audioFile/conditions`, opts, "json", 'post')
+        },
     }
+
 
 
 

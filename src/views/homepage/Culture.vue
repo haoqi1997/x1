@@ -15,55 +15,75 @@
 
     <div class="culture_miao">
       <el-table :data="tableData" style="width: 100%" row-class-name="warning-row">
-        <el-table-column prop="date" label="歌名"></el-table-column>
-        <el-table-column prop="name" label="时间" width="180"></el-table-column>
+        <el-table-column prop="title" label="标题" width="300"></el-table-column>
+        <el-table-column prop="synopsis" label="简介">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <p>{{ scope.row.synopsis }}</p>
+              <div slot="reference">{{ scope.row.synopsis }}</div>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column label="地址" width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text">
+            <el-button @click="handleClick(scope.row.filePath)" type="text">
               <img src="../../assets/img/culture/播放.png" alt />
             </el-button>
-            <el-button type="text">
+            <el-button type="text" @click="downloadmp3(scope.row.filePath)">
               <img src="../../assets/img/culture/xiazai@2x.png" alt />
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <audio src id="eventAudio" controls preload>您的浏览器不支持 audio 标签。</audio>
+    <audio src id="eventAudio" ref="audios" controls preload>您的浏览器不支持 audio 标签。</audio>
   </div>
 </template>
 <script>
+import saveAs from 'file-saver'
+var FileSaver = require('file-saver')
 export default {
   name: '',
   data() {
     return {
-      tableData: [
-        {
-          date: '《暗示》',
-          name: '时长5:14',
-          src: 'http://192.168.0.101:8091/temple/upload/大鱼.mp3'
-        },
-        {
-          date: '《荷塘月色 街舞舞曲版》',
-          name: '时长4:08',
-          src: require('../../assets/music/凤凰传奇.mp3')
-        },
-        {
-          date: '《荷塘月色-郭东昊》',
-          name: '时长3:42',
-          src: require('../../assets/music/郭东昊.mp3')
-        }
-      ]
+      data: {
+        current: '1',
+        size: '5'
+      },
+      tableData: []
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getlist()
+  },
   methods: {
+    getlist() {
+      this.$public.noAuthController
+        .noAuthaudioFileConditions(this.data)
+        .then(res => {
+          if (res.code == '000000') {
+            this.tableData = res.data.records
+          }
+        })
+    },
+
     handleClick(row) {
+      // this.$refs.audios
+      console.log(
+        'handleClick -> this.$refs.audios',
+        this.$refs.audios.HTMLMediaElement
+      )
+      console.log('handleClick -> row', row)
       let buttonAudio = document.getElementById('eventAudio')
       console.log('handleClick -> buttonAudio', buttonAudio)
-      buttonAudio.setAttribute('src', row.src)
+      buttonAudio.setAttribute('src', row)
       buttonAudio.play()
+    },
+    downloadmp3(src) {
+      console.log('created -> src', src)
+      let v = src.substring(src.lastIndexOf('/') + 1)
+      window.location.href = `/file/downloadFile?fileName=${v}`
     }
   },
   components: {}
@@ -86,11 +106,11 @@ export default {
   background: url('../../assets/img/culture/building-1007425.png') no-repeat;
   background-size: 100% 100%;
 }
-.el-table thead {
+/* .el-table thead {
   color: #909399;
   font-weight: 500;
   display: none;
-}
+} */
 .banner_img_cephalosome {
   position: absolute;
 

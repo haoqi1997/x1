@@ -48,7 +48,7 @@ height:261px; position: absolute;top:2px;right:2px">
       </div>
     </div>
     <div style="width:64%;margin:auto;padding-top:4.21%">
-      <div v-html="this.gallerylist.detailHtml"></div>
+      <div class="ql-editor" v-html="this.gallerylist.detailHtml"></div>
     </div>
     <div style="height:100px"></div>
   </div>
