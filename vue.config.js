@@ -3,6 +3,8 @@ webpake 的配置文件
 
 
 */
+'use strict'
+
 
 const path = require('path')
 

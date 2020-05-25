@@ -214,7 +214,19 @@ export const base = {
         happening(id, opts) {
             return doExec(`${apiPrefix}/noAuth/happening/${id}`, opts, null, 'get')
         },
-
+        // 祖师法嗣-查询详情
+        noAuth(id, opts) {
+            return doExec(`${apiPrefix}/noAuth/${id}`, opts, null, 'get')
+        },
+        // 祖祖师法嗣-根据条件查询全部祖师或法嗣
+        noAuthMasterAll(id, opts) {
+            return doExec(`${apiPrefix}/noAuth/master/all/${id}`, opts, null, 'get')
+        },
+        // /noAuth/conditions
+        // 祖师法嗣-条件查询
+        noAuthConditions(opts) {
+            return doExec(`${apiPrefix}/noAuth/conditions`, opts, "json", 'post')
+        },
         //古往今来-条件查询
         noAuthBeforeOrSinceConditions(opts) {
             return doExec(`${apiPrefix}/noAuth/beforeOrSince/conditions`, opts, "json", 'post')
@@ -259,6 +271,31 @@ export const base = {
         //查询详情
         audioFileConditions(opts) {
             return doExec(`${apiPrefix}/audioFile/conditions`, opts, "json", 'post')
+        },
+    },
+    // --------------------------------------祖师法嗣----------------------
+    masterController: {
+        // 新增
+        adsmaster(opts) {
+            return doExec(`${apiPrefix}/master`, opts, "json", 'post')
+        },
+        // 查询详情
+        aumaster(id, opts) {
+            return doExec(`${apiPrefix}/master/${id}`, opts, null, 'get')
+        },
+        // 修改记录
+        putmaster(id, opts) {
+            return doExec(`${apiPrefix}/master/${id}`, opts, "json", 'put')
+        },
+        // 删除
+        DELETEmaster(id, opts) {
+            return doExec(`${apiPrefix}/master/${id}`, opts, null, 'DELETE')
+        },
+        //         /master/conditions
+        // 条件查询
+        //查询详情
+        masterConditions(opts) {
+            return doExec(`${apiPrefix}/master/conditions`, opts, "json", 'post')
         },
     }
 

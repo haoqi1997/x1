@@ -4,17 +4,12 @@
       <div class="buttons">
         <el-row :gutter="20">
           <el-col :span="7">
-            <el-input
-              placeholder="请输入标题"
-              clearable
-              @clear="getUFineArtsList"
-              v-model="FineArtstitle"
-            >
-              <el-button slot="append" icon="el-icon-search" @click="getUFineArtsList"></el-button>
+            <el-input placeholder="请输入标题" clearable @clear="getUMethodList" v-model="Methodname">
+              <el-button slot="append" icon="el-icon-search" @click="getUMethodList"></el-button>
             </el-input>
           </el-col>
           <el-col :span="4" id="user_add">
-            <el-button type="primary" @click="addFineArts">新闻讯息</el-button>
+            <el-button type="primary" @click="addMethod">添加人物</el-button>
           </el-col>
         </el-row>
       </div>
@@ -22,7 +17,7 @@
     <!--  -->
     <div class="mian">
       <el-table
-        :data="FineArtsData"
+        :data="MethodData"
         style="width: 100%"
         row-class-name="warning-row"
         border
@@ -30,8 +25,11 @@
         element-loading-text="正在获取列表，请稍等..."
       >
         <el-table-column type="index" label="序号" width="50"></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop="synopsis" label="简介"></el-table-column>
+        <el-table-column prop="type" label="类型"></el-table-column>
+        <el-table-column prop="name" label="名字"></el-table-column>
+        <el-table-column prop="generation" label="第几代"></el-table-column>
+        <el-table-column prop="beginYear" label="开始时间"></el-table-column>
+        <el-table-column prop="endYear" label="结束时间"></el-table-column>
 
         <el-table-column label="操作">
           <!-- 编辑用户 -->
@@ -53,11 +51,11 @@
         </el-table-column>
       </el-table>
       <!-- <div> -->
-      <CtrlPage :setPage="getList" ref="page" v-show="0 < FineArtsData.length" />
+      <CtrlPage :setPage="getList" ref="page" v-show="0 < MethodData.length" />
       <!-- </div> -->
     </div>
     <!-- 添加 -->
-    <el-dialog title="添加新闻讯息" :visible.sync="FineArtsDataVisible" width="50%">
+    <el-dialog title="添加人物" :visible.sync="MethodDataVisible" width="50%">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -65,31 +63,40 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="ruleForm.title" placeholder="请输入活动标题"></el-input>
+        <el-form-item label="选择类型" prop="type">
+          <el-select v-model="ruleForm.type" clearable placeholder="请选择类型">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="简介" prop="synopsis">
-          <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input
-            type="textarea"
-            v-model="ruleForm.synopsis"
-            placeholder="请输入简介"
-            maxlength="200"
-            show-word-limit
-          ></el-input>
+        <el-form-item label="第几代" prop="generationNum" v-show="vshow">
+          <el-input v-model="ruleForm.generationNum" placeholder="请输入几代"></el-input>
         </el-form-item>
-        <el-form-item label="上传照片" prop="picture">
-          <el-input v-model="ruleForm.picture" style="display: none !important;"></el-input>
+        <el-form-item label="名字" prop="name">
+          <el-input v-model="ruleForm.name" placeholder="请输入名字"></el-input>
+        </el-form-item>
+        <el-form-item label="开始时间">
+          <el-input v-model="ruleForm.beginYear" placeholder="请输入开始时间"></el-input>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-input v-model="ruleForm.endYear" placeholder="请输入结束时间"></el-input>
+        </el-form-item>
+
+        <el-form-item label="上传照片">
           <el-upload
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
-            :on-success="FineArtsSuccess"
+            :on-success="MethodSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
-            :limit="1"
-            :file-list="FineArtsFilesList"
+            :on-change="handleChange"
+            :file-list="MethodFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
@@ -122,14 +129,13 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
+
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -145,7 +151,7 @@
     </el-dialog>
     <!-- 添加 -->
     <!-- 编辑1 -->
-    <el-dialog title="编辑活动" :visible.sync="FineArts" width="50%">
+    <el-dialog title="编辑人物" :visible.sync="Method" width="50%">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -153,19 +159,29 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="ruleForm.title" placeholder="请输入标题"></el-input>
+        <el-form-item label="选择类型" prop="type">
+          <el-select v-model="ruleForm.type" clearable placeholder="请选择类型">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="简介" prop="synopsis">
-          <!-- <el-input v-model="ruleForm.synopsis" placeholder="请输入简介"></el-input> -->
-          <el-input
-            type="textarea"
-            v-model="ruleForm.synopsis"
-            placeholder="请输入简介"
-            maxlength="200"
-            show-word-limit
-          ></el-input>
+        <el-form-item label="第几代" prop="generationNum" v-show="vshow">
+          <el-input v-model="ruleForm.generationNum" placeholder="请输入几代"></el-input>
         </el-form-item>
+        <el-form-item label="名字" prop="name">
+          <el-input v-model="ruleForm.name" placeholder="请输入名字"></el-input>
+        </el-form-item>
+        <el-form-item label="开始时间">
+          <el-input v-model="ruleForm.beginYear" placeholder="请输入开始时间"></el-input>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-input v-model="ruleForm.endYear" placeholder="请输入结束时间"></el-input>
+        </el-form-item>
+
         <el-form-item label="上传照片" prop="picture">
           <el-input
             v-model="ruleForm.picture"
@@ -173,23 +189,19 @@
             style="display: none !important;"
           ></el-input>
           <el-upload
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
             ref="uplo"
-            :on-success="FineArtsSuccess"
+            :on-success="MethodSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
-            :limit="1"
-            :file-list="FineArtsFilesList"
+            :file-list="MethodFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
         </el-form-item>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
@@ -215,14 +227,12 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -245,44 +255,66 @@ export default {
   name: '',
   data() {
     return {
-      FineArtsDataVisible: false, //添加的
+      MethodDataVisible: false, //添加的
       dialogImageUrl: '',
       ofloading: true, //列表遮罩
-      FineArts: false, //列表遮罩
-      FineArtsData: [],
+      Method: false, //列表遮罩
+      MethodData: [],
       editorimg: [],
       editorimgFilesList: [],
       dialogVisible: false,
-      FineArtsFilesList: [],
-      FineArtstitle: '', //搜索的
+      MethodFilesList: [],
+      Methodname: '', //搜索的
       ids: '',
       innerVisible: false, //内
 
       Dateshijian: '',
       ruleForm: {
+        beginYear: '',
+        detailHtml: '',
+        endYear: '',
+        generationNum: '',
+        name: '',
         picture: '',
-        synopsis: '',
-        title: '',
-        typeCode: 'news',
-        detailHtml: ''
+        type: '',
+        username: ''
       },
+      options: [
+        {
+          value: '1',
+          label: '主持'
+        },
+        {
+          value: '0',
+          label: '法嗣'
+        }
+      ],
+      vshow: true,
 
       uploadUrl: `${window.apiBase}/file/uploadFiles`,
       importHeaders: {
         token: getUserInfo().token
       },
       rules: {
-        title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
-        synopsis: [{ required: true, message: '请输入简介', trigger: 'blur' }],
-        picture: [
-          {
-            required: true,
-            message: '请上传照片'
-          }
-        ]
+        name: [{ required: true, message: '请输入名字', trigger: 'blur' }],
+        type: [{ required: true, message: '请选择类型', trigger: 'blur' }]
       },
       editorOption: {},
-      quilllength: '' //光标位置
+      quilllength: '', //光标位置
+      hideUpload: false,
+      limitCount: 1
+    }
+  },
+  watch: {
+    'ruleForm.type'() {
+      console.log('ruleForm.type', this.ruleForm.type)
+      if (this.ruleForm.type == 0) {
+        this.vshow = false
+        console.log('this.vshow', this.vshow)
+      } else {
+        this.vshow = true
+        console.log('this.vshow', this.vshow)
+      }
     }
   },
   created() {},
@@ -291,65 +323,73 @@ export default {
   },
 
   methods: {
+    //超出限制数隐藏
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount
+      //   console.log('handleChange -> hideUpload', this.hideUpload)
+    },
     //   富文本上传cg
+
     editorSuccess(res) {
-      console.log('editorSuccess -> res', res)
+      //   console.log('editorSuccess -> res', res)
       this.editorimg.push(res.data[0])
+      //   console.log('editorSuccess -> this.editorimg', this.editorimg)
     },
     //点击上传时拿到富文本的位置
     uploads() {
       let quill = this.$refs.myQuillEditor.quill
       this.quilllength = quill.getSelection() ? quill.getSelection().index : 0
-      console.log('uploads -> this.quilllength', this.quilllength)
+      //   console.log('uploads -> this.quilllength', this.quilllength)
       this.innerVisible = true
     },
     beforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 1
+      //   console.log('beforeAvatarUpload -> file', file)
+      const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 10MB!')
       }
       return isLt2M
     },
     //打开编辑
     handleEdit(index, id) {
       this.ids = id
-      this.FineArtsFilesList = []
-      this.$public.happeningController.happeningid(id).then(res => {
+      this.vshow = true
+      this.MethodFilesList = []
+      this.$public.masterController.aumaster(id).then(res => {
         if (res.code == '000000') {
           this.ruleForm = res.data
-          this.FineArtsFilesList.push({
+          this.MethodFilesList.push({
             url: res.data.picture,
-            name: res.data.title,
+            name: res.data.name,
             id: res.data.id
           })
-          this.FineArts = true
+          this.Method = true
         }
       })
     },
     //   上传照片
-    FineArtsSuccess(res) {
+    MethodSuccess(res) {
       this.ruleForm.picture = res.data[0]
-      //   if (this.ruleForm.picture) {
-      //     let box = document.getElementsByClassName('el-upload').style
-      //     // box.style.display = 'none'
-      //     console.log('FineArtsSuccess -> box', box)
-      //   }
     },
     //   搜索
-    getUFineArtsList() {
+    getUMethodList() {
       this.$refs.page.getList(1)
     },
     //   添加
-    addFineArts() {
-      ;(this.ruleForm = {
-        picture: '',
-        synopsis: '',
-        title: '',
-        typeCode: 'news',
-        detailHtml: ''
-      }),
-        (this.FineArtsFilesList = [])
-      this.FineArtsDataVisible = true
+    addMethod() {
+      ;(this.hideUpload = false),
+        (this.ruleForm = {
+          beginYear: '',
+          detailHtml: '',
+          endYear: '',
+          generationNum: '',
+          name: '',
+          picture: '',
+          type: ''
+        })
+      this.vshow = true
+      this.MethodFilesList = []
+      this.MethodDataVisible = true
     },
     // 富文本上传成功
     Success() {
@@ -371,23 +411,7 @@ export default {
           Message.error('图片插入失败')
         }
       })
-      //   this.editorimg = []
-
-      //   let res = this.editorimg[0]
-      //   console.log('Success -> res', res)
-      //   let quill = this.$refs.myQuillEditor.quill
-      //   // 如果上传成功
-      //   if (res) {
-      //     // 获取光标所在位置
-      //     // 插入图片，res为服务器返回的图片链接地址
-      //     quill.insertEmbed(this.quilllength, 'image', res)
-      //     // 调整光标到最后
-      //     quill.setSelection(this.quilllength + 1)
-      //     this.editorimgFilesList = []
-      //   } else {
-      //     // 提示信息，需引入Message
-      //     Message.error('图片插入失败')
-      //   }
+      this.editorimg = []
     },
     //获取表格列表
     // pageIndex, //每行几个
@@ -396,40 +420,51 @@ export default {
     getList(pageIndex, rows, callback) {
       // this.Dateshijian
 
-      this.$public.happeningController
-        .happeningConditions({
+      this.$public.masterController
+        .masterConditions({
           current: pageIndex,
           size: rows,
-          title: this.FineArtstitle,
-          typeCode: 'news'
+          name: this.Methodname
         })
         .then(res => {
           if (res.code == '000000') {
-            this.FineArtsData = res.data.records
+            this.MethodData = res.data.records
+            this.MethodData.forEach((item, index) => {
+              if (item.type == 1) {
+                this.MethodData[index].type = '主持'
+              } else {
+                this.MethodData[index].type = '法嗣'
+              }
+            })
             this.ofloading = false
-            callback(this.FineArtsData, +res.data.total)
+            callback(this.MethodData, +res.data.total)
           }
         })
     },
     // 提交
     submitForm(formName) {
-      console.log('submitForm -> this.ruleForm', this.ruleForm)
+      //   console.log('submitForm -> this.ruleForm', this.ruleForm)
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$public.happeningController
-            .addhappening(this.ruleForm)
-            .then(res => {
-              if (res.code == '000000') {
-                this.$$message({
-                  message: '添加成功！',
-                  type: 'success'
-                })
-                this.$refs[formName].resetFields()
-                // this.$refs[formName].resetFields()
-                this.$refs.page.getList(1)
-                this.FineArtsDataVisible = false
-              }
-            })
+          console.log('submitForm -> this.ruleForm.type', this.ruleForm.type)
+          if (this.ruleForm.type == 1) {
+            if (this.ruleForm.generationNum == '') {
+              this.$message.error('请填写年代')
+              return false
+            }
+          }
+          this.$public.masterController.adsmaster(this.ruleForm).then(res => {
+            if (res.code == '000000') {
+              this.$$message({
+                message: '添加成功！',
+                type: 'success'
+              })
+              this.$refs[formName].resetFields()
+              this.$refs.page.getList(1)
+              this.MethodDataVisible = false
+              this.vshow = true
+            }
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -438,29 +473,30 @@ export default {
     },
     // 编辑
     redactForm(formName) {
-      console.log('redactForm -> formName', formName)
+      //   console.log('redactForm -> formName', formName)
       const v1 = {
+        beginYear: this.ruleForm.beginYear,
         detailHtml: this.ruleForm.detailHtml,
+        endYear: this.ruleForm.endYear,
+        generationNum: this.ruleForm.generationNum,
+        name: this.ruleForm.name,
         picture: this.ruleForm.picture,
-        synopsis: this.ruleForm.synopsis,
-        title: this.ruleForm.title,
-        typeCode: 'news'
+        type: this.ruleForm.type
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$public.happeningController
-            .puthappeningid(this.ids, v1)
-            .then(res => {
-              if (res.code == '000000') {
-                this.$$message({
-                  message: '修改成功！',
-                  type: 'success'
-                })
-                this.$refs[formName].resetFields()
-                this.$refs.page.getList(1)
-                this.FineArts = false
-              }
-            })
+          this.$public.masterController.putmaster(this.ids, v1).then(res => {
+            if (res.code == '000000') {
+              this.$$message({
+                message: '修改成功！',
+                type: 'success'
+              })
+              this.$refs[formName].resetFields()
+              this.$refs.page.getList(1)
+              this.Method = false
+              this.vshow = true
+            }
+          })
         } else {
           console.log('error submit!!')
           return false
@@ -469,18 +505,15 @@ export default {
     },
     //重置
     resetForm(formName) {
-      this.FineArts = false
-      this.FineArtsDataVisible = false
+      this.Method = false
+      this.MethodDataVisible = false
       this.$refs[formName].resetFields()
     },
-    handlePictureCardPreview(file) {
-      console.log('handlePictureCardPreview -> file', file)
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
+
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       this.ruleForm.picture = ''
+      this.hideUpload = fileList.length >= this.limitCount
     },
     // 删除用户
     handleDelete(index, id) {
@@ -490,8 +523,8 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.$public.happeningController.DELETEhappening(id).then(res => {
-            console.log('handleDelete -> res', res)
+          this.$public.masterController.DELETEmaster(id).then(res => {
+            // console.log('handleDelete -> res', res)
             if (res.code == '000000') {
               this.$message({
                 message: '恭喜你，删除成功',
@@ -536,7 +569,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ql-image {
-  display: none !important;
+.hide .el-upload--picture-card {
+  display: none;
 }
 </style>

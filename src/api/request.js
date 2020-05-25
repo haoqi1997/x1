@@ -31,24 +31,24 @@ export const doExec = (url, params, contentType, methods) => {
             }
         })
         .catch(res => {
-            // if (res.request.status == 403 && !isLoginTip) {
-            //     isLoginTip = true
-            //     ServerMixin.Event.$$alert({
-            //         message: '登录超时，请重新登录。',
-            //         showClose: false,
-            //         type: 'warning',
-            //     }).then(() => {
-            //         ServerMixin.Event.$emit('login', res.response.data)
-            //     })
-            // } else if (res.request.status == 500) {
-            //     isLoginTip = true
-            //     ServerMixin.Event.$$alert({
-            //         message: '服务器连接超时，请稍后再试。',
-            //         showClose: false,
-            //         type: 'warning',
-            //     }).then(() => {
-            //         ServerMixin.Event.$emit('login', res.response.data)
-            //     })
-            // }
+            if (res.request.status == 403 && !isLoginTip) {
+                isLoginTip = true
+                ServerMixin.Event.$$alert({
+                    message: '登录超时，请重新登录。',
+                    showClose: false,
+                    type: 'warning',
+                }).then(() => {
+                    ServerMixin.Event.$emit('login', res.response.data)
+                })
+            } else if (res.request.status == 500) {
+                isLoginTip = true
+                ServerMixin.Event.$$alert({
+                    message: '服务器连接超时，请稍后再试。',
+                    showClose: false,
+                    type: 'warning',
+                }).then(() => {
+                    ServerMixin.Event.$emit('login', res.response.data)
+                })
+            }
         })
 };

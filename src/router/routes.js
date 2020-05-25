@@ -42,31 +42,7 @@ const routes = [{
                 },
                 component: resolve => require(['../views/homepage/Square.vue'], resolve),
             },
-            // {
-            //     path: 'WillReport',
-            //     name: '法会报道',
-            //     meta: {
-            //         title: '法会报道'
-            //     },
-            //     component: resolve => require(['../views/homepage/WillReport.vue'], resolve),
-            // },
-            // {
-            //     path: 'information',
-            //     name: '新闻讯息',
-            //     meta: {
-            //         title: '新闻讯息'
-            //     },
-            //     component: resolve => require(['../views/homepage/Information.vue'], resolve),
-            // },
-            // {
-            //     path: 'public',
-            //     name: '公益慈善',
-            //     meta: {
-            //         title: '公益慈善'
-            //     },
-            //     component: resolve => require(['../views/homepage/Public.vue'], resolve),
-            // },
-            // 二级2
+
             {
                 path: 'dynamic',
                 name: '净慈动态',
@@ -258,14 +234,23 @@ const routes = [{
                 component: () =>
                     import ('../views/backstage/dynamiccondition/Benefit')
             },
+            // {
+            //     path: 'Patriarch',
+
+            //     meta: {
+            //         title: '祖师录'
+            //     },
+            //     component: () =>
+            //         import ('../views/backstage/figure/Patriarch.vue')
+            // },
             {
-                path: 'figure',
+                path: 'Method',
 
                 meta: {
-                    title: '净慈人物'
+                    title: '祖师法嗣'
                 },
                 component: () =>
-                    import ('../views/backstage/figure')
+                    import ('../views/backstage/figure/Method.vue')
             },
             {
                 path: 'Song',

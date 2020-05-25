@@ -200,7 +200,7 @@
 <script>
 import CtrlPage from 'components/component/CtrlPage'
 import { getUserInfo } from '../../../utils/auth'
-import quillConfig from '../../../utils/quill-config'
+// import quillConfig from '../../../utils/quill-config'
 
 export default {
   name: '',

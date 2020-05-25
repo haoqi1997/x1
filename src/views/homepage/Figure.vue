@@ -15,27 +15,45 @@
     <div class="figure_main">
       <div class="figure_box">
         <div class="figure_img">
-          <img src="../../assets/img/figure/永明延寿禅师@2x.png" alt />
+          <img :src="this.onelist.picture" alt />
         </div>
         <div class="figure_text">
-          <p>永明延寿禅师</p>
-          <div>
-            永明延寿禅师（公元904---975年），讳延寿，俗姓王，字冲元，号抱一子，祖籍江苏丹阳，后迁浙江钱塘。少时诵《法华经》。钱文穆王时，大师作税务官，见鱼虾飞禽等，辄买放生，自己薪俸用完，即用官钱买之放生。后被告发，当坐死罪，押赴市曹处斩。文穆王派人视之，指令监刑人，若见犯人惧怕，即杀之；否则放之。大师临刑镇静自若，面无戚容，云：“我于库钱毫无私用，尽买放生，莫知其数。今死，径生西方极乐世界，不亦乐乎？”文穆王闻而便将大师免刑释放。被释放后，大师投明州翠岩禅师出家，次参天台德韶国师，发明心要。受法嗣，为法眼宗第三代祖师。
-            <br />大师常修法华忏，精进禅观，常感瑞应。一日中夜旋绕次，见普贤菩萨像前所供养的莲华忽然在手。大师思忖素有二愿，一愿终身常诵《法华经》，二愿毕生广利众生。忆此二愿，复乐禅寂，进退迟疑，莫能自决，遂上智者禅院作二阄。一是一心禅定阄，二是诵经万善庄严净土阄。大师于佛前冥心精祷，信手拈之，七次并得净土阄。由是大师一意专修净业。诵经三载，见观音菩萨以甘露灌口，从此发得观音辩才。
-            <br />宋建隆元年（公元960年），大师受吴越忠懿王邀请，复兴杭州灵隐寺，次年迁住永明寺（即今天的江浙衢州天宁寺），接化徒众。大师日行一百零八佛事为常课，其中重要的项目有：受持神咒（大悲咒，尊胜陀罗尼咒），念佛，礼佛，诵经（《法华经》，《般若心经》，《华严净行品》），坐禅，说法。每日虔礼十方十佛，释迦，文殊，普贤，弥勒，观音，势至等，每夜施食于旷野鬼神等。
-            <br />大师发愿求生西方，日念弥陀圣号十万声。日暮时往别峰行道念佛，随从念佛者常有数百。清宵月明之夜，时闻螺贝天乐的声音。忠懿王敬重其德，闻此大为感动，叹曰：“自古求西方者，未有如此之切也。”遂为大师建西方香严殿以成其志，赐号智觉禅师。
-            <br />大师住永明十五年，弟子数千。常为众人授菩萨戒，施食放生，泛爱慈柔。一切功德悉皆回向众生，以作往生净土之资粮。劝勉大家老实念佛，以身作则，坐断一切狂慧口舌，解散一切义学藩篱，精行万行，庄严净土。
-            <br />宋开宝八年二月二十六日，大师晨起，焚香辞告众人，趺坐而化，时年七十二岁。著作宏富，有《宗镜录》，《万善同归集》，《神栖安养赋》，《唯心诀》，《受菩萨戒法》等六十余部（篇）问世。《宗镜录》一百卷，广大博览，对当时各宗派间之宗旨分歧，持调和态度。高丽王见此书，乃遣使叙弟子之礼，并派国僧三十六人前来学法，法眼之禅风遂盛行于海东。永明可谓一代硕学。
-            <br />永明大师圆寂后，有一从临安来的僧人，经年绕大师塔，旁人问他何故绕塔？那僧人回答：“我在一次大病中到过冥界，看见阎王殿左边供了一幅僧人像，阎王常在像前礼拜，我私下询问：阎王礼拜的僧人是谁？得到的回答是：“那僧是杭州的永明延寿大师。大师灵逝，未经冥俯，直接往生西方上上品。阎王尊重大师德业故，天天礼拜。所以我来这里绕塔，以示恭敬之心。”宋开宝八年十二月二十四日示寂。
-          </div>
+          <p>{{this.onelist.name}}</p>
+          <div class="ql-editor" v-html="this.onelist.detailHtml"></div>
         </div>
       </div>
       <div class="figure_boss">
-        <p>主持</p>
-        <span>\</span>
-        <div
-          class="time"
-        >开山始祖 道潜（？——961） 第一代 冲元延寿（904——975） 第二代 通辨道鸿 第三代 洪寿 与延寿同为德韶弟子 第四代 圆照宗本（1020——1099） 第五代 大通善本（?——1109） 第六代 道坚 第七代 永程 第八代 佛智道容 第九代 肯堂彦充 第十代 佛智端裕（？——1150） 第十一代 水庵师一（1107——1176） 第十二代 自得慧晖（？——1183） 第十三代 楚明宝印 第十四代 道端 第十五代 普照象 第十六代 混源昙密（1120——1188） 第十七代 月堂道昌（1089——1171） 第十八代 元净 第十九代 法真守一 第二十代 德辉 第二十一代 晦翁悟明 第二十二代 隐之重显（980——1052） 第二十三代 木庵安永（？——1173） 第二十四代 普照明 第二十五代 退谷义云（？——1206） 第二十六代 石桥可宣 第二十七代 谷源 第二十八代 孤云权 第二十九代 少林妙崧 第三十代 中庵皎 第三十一代 倚松如壁（1065——1129） 第三十二代 潜庵慧光 第三十三代 石田法熏（1171——1244） 第三十四代 笑翁妙堪（1177——1248） 第三十五代 天用才 第三十六代 灭翁文礼 第三十七代 敬叟居简（1164——1246） 第三十八代 大川普济(1179——1253) 第三十九代 无极观出 第四十代 偃溪广闻（？——1263） 第四十一代 荆叟如珏 第四十二代 断桥妙伦 第四十三代 介石明 第四十四代 简翁敬 第四十五代 淮海原肇 第四十六代 虚堂智愚（1185——1269） 第四十七代 石帆衍 第四十八代 东叟仲颖 第四十九代 香山远 第五十代 石林行巩（1220——1280） 第五十一代 清溪沅 第五十二代 无文义传 第五十三代 古田德垕 第五十四代 愚极至慧 第五十五代 方山文宝 第五十六代 本源善达 第五十七代 雪庭正传 第五十八代 晦机元熙（？——1319） 第五十九代 东屿德海（？——1327） 第六十代 千濑善庆（？——1338） 第六十一代 灵石芝 第六十二代 石湖渼 第六十三代 日溪泳 第六十四代 樵隐逸 第六十五代 天岩吉 第六十六代 平山处林 第六十七代 愚庵智及（？——1378） 第六十八代 悦堂颜 第六十九代 孤峰明德（？——1372） 第七十代 用童俊 第七十一代 清远怀渭（？——1375） 第七十二代 逆川智顺（？——1373） 第七十三代 南州藻 第七十四代 孚中怀信（？——1357） 第七十五代 愚溪智 第七十六代 无旨可授（？——1375） 第七十七代 德隐普仁（？——1375） 第七十八代 同庵夷简 第七十九代 德祥止庵（1330——？） 第八十代 仲邠岐 第八十一代 祖芳道联（？——1407） 第八十二代 一源纯 第八十三代 无碍心 第八十四代 希古师颐（？——1432） 第八十五代 节庵礼 第八十六代 鼎庵需 第八十七代 觉庵宗妙 第八十八代 照庵宗静（1373——1448） 第八十九代 大章如圭 第九十代 南宗广衍 第九十一代 玉冈蒙润 第九十二代 元宝洪 第九十三代 乾宝真 第九十四代 别宗演 第九十五代 遗庵璧 第九十六代 云轩津 第九十七代 道初义 第九十八代 晓堂晟 第九十九代 秀峰玉 第一百代 古渊智源 第一百零一代 大云道庆 第一百零二代 用仁文怀 第一百零三代 世英慧俊 第一百零四代 无相德聚 第一百零五代 本清永迪 第一百零六代 大潮清涌 第一百零七代 了然道富 第一百零八代 无碍道通 第一百零九代 我云德隆 第一百十代 莲洲圆昆 第一百十一代 竹泉道钦 第一百十二代 芜洲圆仑 第一百十三代 心谷圆澄 第一百十四代 镜莲如纲 第一百十五代 心源圆清 第一百十六代 文英 第一百十七代 性莲 第一百十八代 明广 第一百十九代 云谷圆岳 第一百二十代 云溪真玺 第一百二十一代 蕴庵真琮 第一百二十二代 毅庵辨才 第一百二十三代 静庵清杰 第一百二十四代 云滨真琇 第一百二十五代 文宇真璿 第一百二十六代 翠峰明庙 第一百二十七代 西宗静方 第一百二十八代 简庵如贵 第一百二十九代 见初性恒 第一百三十代 慈庵如仁 第一百三十一代 切若海澜 第一百三十二代 印涵道尊 第一百三十三代 戒香德馨 第一百三十四代 净元照珠 第一百三十五代 般舟海航 第一百三十六代 际涯如琏 第一百三十七代 无生正愿 第一百三十八代 惟一然许 第一百三十九代 在焉临俨 以上见《净慈寺旧志》 新增：天童如净禅师（1163——1228） 太虚法师（1889--1947）</div>
+        <p>住持</p>
+        <span
+          style="    width: 18px;
+    height: 18px;
+    color: rgb(198, 35, 38);
+    opacity: 1;"
+        >\</span>
+        <div class="niandai">
+          <p v-for=" item in zclists" :key="item.id">
+            <span v-if="item.generationNum==0">{{item.generation}}</span>
+            <span v-else>第{{item.generation}}代</span>
+            <i style="display: inline-block;width:18px"></i>
+            <span>{{item.name}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="figure_boss">
+      <p>法嗣</p>
+      <span
+        style="    width: 18px;
+    height: 18px;
+    color: rgb(198, 35, 38);
+    opacity: 1;"
+      >\</span>
+      <div class="niandai">
+        <p v-for=" item in stlists" :key="item.id">
+          <span>第{{item.generation}}代</span>
+          <i style="display: inline-block;width:18px"></i>
+          <span>{{item.name}}</span>
+        </p>
       </div>
     </div>
   </div>
@@ -44,15 +62,87 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      onelist: [],
+      Figurelist: [],
+      zclists: [],
+      stlists: [],
+      index: '',
+      data: {
+        current: 1,
+        size: 10
+      }
+    }
   },
-  created() {},
+  created() {
+    $(document).ready(function() {
+      if (location.href.indexOf('#reloaded') == -1) {
+        location.href = location.href + '#reloaded'
+        location.reload()
+      }
+    })
+    // this.getlist()
+    this.zclist()
+    this.stlist()
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    // getlist() {
+    //   this.$public.noAuthController.noAuthConditions(this.data).then(res => {
+    //     console.log('handleDelete -> res', res)
+    //     if (res.code == '000000') {
+    //       this.Figurelist = res.data.records
+    //       this.Figurelist.forEach((item, index) => {
+    //         if (item.generationNum == -1) {
+    //           this.onelist = item
+    //           this.index = index
+    //           this.Figurelist.splice(index, 1)
+    //         }
+    //       })
+    //     }
+    //   })
+    // }
+    zclist() {
+      this.$public.noAuthController.noAuthMasterAll(1).then(res => {
+        console.log('zclist -> res', res)
+        if (res.code == '000000') {
+          this.onelist = res.data[0]
+          this.Figurelist = res.data.shift()
+          this.zclists = res.data
+
+          console.log('zclist -> this.onelist', this.onelist)
+        }
+      })
+    },
+    stlist() {
+      this.$public.noAuthController.noAuthMasterAll(0).then(res => {
+        console.log('stlist -> res', res)
+
+        if (res.code == '000000') {
+          this.stlists = res.data
+        }
+      })
+    }
+  },
   components: {}
 }
 </script>
 <style >
+.figure_boss {
+  width: 58%;
+  margin: 0 auto;
+  margin-top: 61px;
+}
+.figure_boss > p {
+  width: 40px;
+  height: 23px;
+  font-size: 20px;
+  font-family: GenRyuMin TW TTF;
+  font-weight: bold;
+  line-height: 38px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
 .figure_main {
   height: 1545px;
 }
@@ -83,7 +173,7 @@ export default {
 }
 .figure_text > div {
   width: 100%;
-  height: 762px;
+  /* height: 762px; */
   margin-top: 46px;
   font-size: 14px;
   font-family: Microsoft YaHei;
@@ -144,4 +234,13 @@ export default {
   border-radius: 50%;
 }
 /*  */
+.niandai {
+  width: 390px;
+  margin-top: 45px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 38px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
 </style>

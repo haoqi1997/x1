@@ -5,17 +5,7 @@
 </template>
 <script>
 export default {
-  created() {},
-  watch: {
-    // $route(to, from) {
-    //   $(document).ready(function() {
-    //     if (location.href.indexOf('#reloaded') == -1) {
-    //       location.href = location.href + '#reloaded'
-    //       location.reload()
-    //     }
-    //   })
-    // }
-  }
+  created() {}
 }
 </script>
 <style>
@@ -28,7 +18,7 @@ export default {
 }
 </style>
 <style >
-@import '../public/font/TW/font.css';
+@import '../public/TW/font.css';
 </style>
 
 
