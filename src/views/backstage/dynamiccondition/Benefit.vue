@@ -2,7 +2,7 @@
   <div>
     <div class="buttons">
       <div class="buttons">
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="7">
             <el-input
               placeholder="请输入标题"
@@ -13,7 +13,7 @@
               <el-button slot="append" icon="el-icon-search" @click="getUFineArtsList"></el-button>
             </el-input>
           </el-col>
-          <el-col :span="4" id="user_add">
+          <el-col :span="3" id="user_add">
             <el-button type="primary" @click="addFineArts">公益慈善</el-button>
           </el-col>
         </el-row>
@@ -33,7 +33,7 @@
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="synopsis" label="简介"></el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <!-- 编辑用户 -->
           <template v-slot="scope">
             <el-button
@@ -75,11 +75,12 @@
         <el-form-item label="上传照片" prop="picture">
           <el-input v-model="ruleForm.picture" style="display: none !important;"></el-input>
           <el-upload
+            :on-change="handleChange"
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
             :on-success="FineArtsSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
             :limit="1"
@@ -88,9 +89,6 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
         </el-form-item>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
@@ -116,14 +114,13 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
+
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -161,12 +158,13 @@
             style="display: none !important;"
           ></el-input>
           <el-upload
+            :on-change="handleChange"
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
             ref="uplo"
             :on-success="FineArtsSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             name="files"
             :limit="1"
@@ -175,9 +173,6 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
         </el-form-item>
         <!-- 富文本1 -->
         <div style="margin-top: 50px;position: relative;">
@@ -203,14 +198,13 @@
             list-type="picture-card"
             :on-success="editorSuccess"
             :headers="importHeaders"
-            :on-preview="handlePictureCardPreview"
             name="files"
             :file-list="editorimgFilesList"
             :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <img width="100%" :src="dialogImageUrl" alt />
+
           <div slot="footer" class="dialog-footer">
             <el-button @click="innerVisible = false">取 消</el-button>
             <el-button type="primary" @click="Success ">确 定</el-button>
@@ -234,7 +228,7 @@ export default {
   data() {
     return {
       FineArtsDataVisible: false, //添加的
-      dialogImageUrl: '',
+
       ofloading: true, //列表遮罩
       FineArts: false, //列表遮罩
       FineArtsData: [],
@@ -270,6 +264,8 @@ export default {
         ]
       },
       editorOption: {},
+      hideUpload: false,
+      limitCount: 1,
       quilllength: '' //光标位置
     }
   },
@@ -292,9 +288,9 @@ export default {
       this.innerVisible = true
     },
     beforeAvatarUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 1
+      const isLt2M = file.size / 1024 / 1024 < 10
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 1MB!')
+        this.$message.error('上传图片大小不能超过 10MB!')
       }
       return isLt2M
     },
@@ -310,6 +306,7 @@ export default {
             name: res.data.title,
             id: res.data.id
           })
+          this.hideUpload = this.FineArtsFilesList.length >= this.limitCount
           this.FineArts = true
         }
       })
@@ -323,12 +320,18 @@ export default {
       //     console.log('FineArtsSuccess -> box', box)
       //   }
     },
+    //超出限制数隐藏
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount
+      console.log('handleChange -> hideUpload', this.hideUpload)
+    },
     //   搜索
     getUFineArtsList() {
       this.$refs.page.getList(1)
     },
     //   添加
     addFineArts() {
+      this.hideUpload = false
       ;(this.ruleForm = {
         picture: '',
         synopsis: '',
@@ -459,14 +462,11 @@ export default {
       this.FineArtsDataVisible = false
       this.$refs[formName].resetFields()
     },
-    handlePictureCardPreview(file) {
-      console.log('handlePictureCardPreview -> file', file)
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
+
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       this.ruleForm.picture = ''
+      this.hideUpload = fileList.length >= this.limitCount
     },
     // 删除用户
     handleDelete(index, id) {
@@ -505,12 +505,9 @@ export default {
   background: oldlace;
 }
 
-.mian {
-  margin: 80px auto;
-}
 .el-table th,
 .el-table tr th {
-  background-color: #f8f700;
+  background-color: #f8f8f8;
 }
 .el-select {
   width: 100%;

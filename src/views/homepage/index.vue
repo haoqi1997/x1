@@ -170,7 +170,7 @@ opacity:1;">/</i>
                   <span style="display: inline-block; width: 60px;"></span>
                   <span> {{item.createdTime}}</span>
                 </p>
-                  <p>{{item.synopsis}}</p>
+                  <p >{{item.synopsis}}</p>
               </div>
             </li>
           </ul>
@@ -280,26 +280,18 @@ export default {
     return {
       activeName: 'history',
         DynamicList:[
-         
-          {
-              id:'56565626565',
-             title :"净慈寺跨年热情高 祈福得排一个多小时",
-             synopsis :"净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。",
-             createdTime :"2020/02/05",
-             picture:"http://192.168.0.254:3322/temple/upload/%E4%B9%BE%E9%9A%86%E8%AF%97%E5%BE%A1%E7%A2%91%E4%BA%AD-460800568840036352.png"
-          },
-          {
-              id:'5656565',
-             title :"净慈寺跨年热情高 祈福得排5个多小时",
-             synopsis :"净慈寺原名“慧日永明院”，至南未时改称“寿宁禅院”，而后又改为“净慈招恩光孝禅寺”，并建五百罗汉堂，规模宏大。据传，苏州西园的五百罗汉堂，就是照此仿造修建的。",
-             createdTime :"2020/02/05",
-             picture:"http://192.168.0.254:3322/temple/upload/%E4%B9%BE%E9%9A%86%E8%AF%97%E5%BE%A1%E7%A2%91%E4%BA%AD-460800568840036352.png"
-          },
-      ]
+      ],
+       data: {
+        current: 1,
+        size: 2,
+        typeCode: 'report'
+      }
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+       this.getlist()
+  },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event)
@@ -309,6 +301,17 @@ export default {
     // this.$router.push(/index/dynamic/details?id=460800709399552000)
         // this.$router.push({path:"/index/dynamic/details",params:{id:val}})
 
+    },
+     getlist() {
+      this.$public.noAuthController
+        .noAuthhappeningConditions(this.data)
+        .then(res => {
+          console.log('handleDelete -> res', res)
+          if (res.code == '000000') {
+            this.DynamicList = res.data.records
+            console.log('getlist -> this.dynamicdetails', this.dynamicdetails)
+          }
+        })
     }
   },
   components: {}
@@ -640,6 +643,7 @@ export default {
 .tags_content > ul > li > .tags_texts > p:nth-child(3) {
   width: 693px;
   height: 74px;
+  overflow: hidden;
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;

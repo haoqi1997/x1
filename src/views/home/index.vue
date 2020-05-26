@@ -1,7 +1,11 @@
 <template>
-  <div class="home">
+  <div class="home" style="position: relative;">
+    <!-- 1 -->
     <div class="header" v-if="path!='/index'" style="background:rgb(0,0,0);
 opacity:0.3;">
+      <el-button @click="login" style="position: absolute;
+    right: 48px;
+    top: 25px;">登录</el-button>
       <el-menu
         :default-active="activeIndex2"
         class="el-menu-demo"
@@ -33,9 +37,14 @@ opacity:0.3;">
     </div>
     <el-container>
       <el-main>
-        <button @click="login">后台</button>
         <div v-if="path=='/index'" style="position: relative;">
           <div class="header">
+            <el-button
+              @click="login"
+              style="position: absolute;
+    right: 48px;
+    top: 25px;"
+            >登录1</el-button>
             <el-menu
               :default-active="activeIndex1"
               class="el-menu-demo"
@@ -65,6 +74,7 @@ opacity:0.3;">
               <el-menu-item :index="item.frontUrl" @click="eClose(item)" v-else>{{item.name}}</el-menu-item>
             </el-menu>
           </div>
+
           <!-- 轮播 -->
           <el-carousel indicator-position="outside" height="1080px" arrow="always" :interval="5000">
             <el-carousel-item v-for="item in bannerImg" :key="item.src">
@@ -79,6 +89,7 @@ opacity:0.3;">
       </el-main>
     </el-container>
   </div>
+  <!-- 1 -->
 </template>
 
 <script>
@@ -91,9 +102,9 @@ export default {
       title: this.$route.meta.title,
       path: this.$route.path,
       bannerImg: [
-        { src: require('../../assets/img/home/1.jpg') },
-        { src: require('../../assets/img/home/2.jpg') },
-        { src: require('../../assets/img/home/3.jpg') }
+        { src: 'http://120.27.194.72:3322/temple/download/1.jpeg' },
+        { src: 'http://120.27.194.72:3322/temple/download/2.jpeg' },
+        { src: 'http://120.27.194.72:3322/temple/download/3.jpeg' }
       ],
       taglist: [
         //     {
@@ -343,7 +354,7 @@ export default {
   color: #fff;
   position: absolute;
   top: 996px;
-  right: 120px;
+  /* right: 120px; */
   transform: translateY(-50%);
   text-align: center;
   font-size: 12px;

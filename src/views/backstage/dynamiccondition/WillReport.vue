@@ -2,7 +2,7 @@
   <div>
     <div class="buttons">
       <div class="buttons">
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="7">
             <el-input
               placeholder="请输入标题"
@@ -30,10 +30,10 @@
         element-loading-text="正在获取列表，请稍等..."
       >
         <el-table-column type="index" label="序号" width="50"></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="title" label="标题" width="350"></el-table-column>
         <el-table-column prop="synopsis" label="简介"></el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <!-- 编辑用户 -->
           <template v-slot="scope">
             <el-button
@@ -325,6 +325,7 @@ export default {
             name: res.data.title,
             id: res.data.id
           })
+          this.hideUpload = this.FineArtsFilesList.length >= this.limitCount
           this.FineArts = true
         }
       })
@@ -504,12 +505,9 @@ export default {
   background: oldlace;
 }
 
-.mian {
-  margin: 80px auto;
-}
 .el-table th,
 .el-table tr th {
-  background-color: #f8f700;
+  background-color: #f8f8f8;
 }
 .el-select {
   width: 100%;

@@ -1,40 +1,88 @@
 <template >
   <div class="backstage_box">
     <el-container>
-      <el-aside width="201px;">
-        <!-- <vue-scroll :ops="ops" style="height:100%"> -->
-        <div class="logo_index" @click="goindex">logo</div>
+      <el-aside width="205px;">
+        <div class="logo_index" @click="goindex"></div>
         <Acccls></Acccls>
-        <!-- </vue-scroll> -->
       </el-aside>
       <el-container>
+        <!-- <div class="">
+          <img src="../../assets/img/后台/三条杠.png" alt />
+        </div>-->
         <el-header>
-          <!-- <el-badge :value="12" class="item">
-            <i class="el-icon-bell"></i>
-          </el-badge>-->
+          <el-row :gutter="20">
+            <el-col :span="6" :offset="6">
+              <div style="color: #fff;">2</div>
+            </el-col>
+            <el-col :span="6" :offset="6">
+              <div>
+                <el-row :gutter="20">
+                  <el-col :span="6">
+                    <div style="line-height: 103px;">
+                      <el-dropdown :hide-on-click="false">
+                        <span class="el-dropdown-link">
+                          <el-badge :value="2" class="item">
+                            <span class="ld"></span>
+                          </el-badge>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                          <el-dropdown-item>
+                            <router-link to="OfAllGes" style="color: #000000;">关于净慈模块古往今来1条消息未读</router-link>
+                          </el-dropdown-item>
+                          <el-dropdown-item>
+                            <router-link to="WillReport" style="color: #000000;">法会报道2条消息未读</router-link>
+                          </el-dropdown-item>
+                          <el-dropdown-item>
+                            <router-link to="Information" style="color: #000000;">讯息新闻2条消息未读</router-link>
+                          </el-dropdown-item>
+                          <el-dropdown-item>
+                            <router-link to="Benefit" style="color: #000000;">公益慈善2条消息未读</router-link>
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </el-dropdown>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div>
+                      <el-avatar
+                        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                      ></el-avatar>
+                    </div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div>{{username}}</div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div>
+                      <el-button size="small" plain @click.native="logout">退出</el-button>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
 
-          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-          <el-button plain @click.native="logout">退出</el-button>
+          <!-- 
+          -->
         </el-header>
-
-        <el-row>
-          <el-col :span="24">
-            <Tags></Tags>
-          </el-col>
-        </el-row>
-        <el-main style="height: 100%;">
-          <!-- <vue-scroll :ops="ops" style="width:100%;height:100%"> -->
-          <div style="width: 97%; padding: 20px;">
-            <div class="content">
-              <transition name="move" mode="out-in">
-                <keep-alive :include="tagsList">
-                  <router-view></router-view>
-                </keep-alive>
-              </transition>
+        <div style="background-color:#fcfcfc;height: 100%;">
+          <el-main style="height: 100%;padding-top: 10px;">
+            <div>
+              <Tags></Tags>
             </div>
-          </div>
-          <!-- </vue-scroll> -->
-        </el-main>
+
+            <div style="width: 97%; padding: 20px;">
+              <div class="content">
+                <transition name="move" mode="out-in">
+                  <keep-alive :include="tagsList">
+                    <router-view></router-view>
+                  </keep-alive>
+                </transition>
+              </div>
+            </div>
+            <!-- </vue-scroll> -->
+          </el-main>
+        </div>
       </el-container>
     </el-container>
   </div>
@@ -49,7 +97,8 @@ export default {
   data() {
     return {
       tagsList: [], //缓存表
-      sessionData: []
+      sessionData: [],
+      username: ''
     }
   },
   created() {
@@ -65,6 +114,7 @@ export default {
       }
       this.tagsList = arr
     })
+    this.username = JSON.parse(localStorage.getItem('menuList')).userVo.name
   },
   mounted() {},
   methods: {
@@ -107,20 +157,42 @@ export default {
   margin-right: 2%;
 }
 .logo_index {
-  height: 60px;
-  line-height: 60px;
-  background-color: antiquewhite;
+  height: 75px;
+  line-height: 75px;
+  background: url('../../assets/img/后台/logo.png') no-repeat;
+  background-size: 100% 100%;
 }
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
+  background-color: #ffffff;
   color: #333;
   text-align: end;
-  line-height: 60px;
+  height: 75px !important;
+  line-height: 75px;
 }
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
   content: '*';
   color: #f56c6c;
   margin-right: 4px;
+}
+.content {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 17px;
+  min-height: 76vh;
+}
+.ld {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background: url('../../assets/img/后台/铃铛.png') no-repeat 100% 100%;
+  background-size: 100%;
+}
+.el-badge__content.is-fixed {
+  top: 30px;
+  right: 17px;
+}
+.el-dropdown-menu {
+  top: 52px !important;
 }
 </style>

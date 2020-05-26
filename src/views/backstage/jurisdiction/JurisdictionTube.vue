@@ -4,7 +4,7 @@
   <div>
     <div class="buttons">
       <div class="buttons">
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="7">
             <el-input placeholder="请输入角色名称" clearable @clear="getUserList" v-model="getUser">
               <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
@@ -28,9 +28,9 @@
         element-loading-text="正在获取角色列表，请稍等..."
       >
         <el-table-column type="index" label="序号" width="50"></el-table-column>
-        <el-table-column prop="roleName" label="角色名称" width="180"></el-table-column>
+        <el-table-column prop="roleName" label="角色名称"></el-table-column>
         <el-table-column prop="roleDesc" label="角色描述"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -449,11 +449,8 @@ export default {
   background: oldlace;
 }
 
-.mian {
-  margin: 80px auto;
-}
 .el-table th,
 .el-table tr th {
-  background-color: #f8f700;
+  background-color: #f8f8f8;
 }
 </style>

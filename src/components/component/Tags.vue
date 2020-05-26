@@ -13,7 +13,7 @@
         </span>
       </li>
     </ul>
-    <div class="tags-close-box">
+    <!-- <div class="tags-close-box">
       <el-dropdown @command="handleTags">
         <el-button size="mini" type="primary">
           标签选项
@@ -21,10 +21,10 @@
         </el-button>
         <el-dropdown-menu size="small" slot="dropdown">
           <el-dropdown-item command="other">关闭其他</el-dropdown-item>
-          <!-- <el-dropdown-item command="all">关闭所有</el-dropdown-item> -->
+           <el-dropdown-item command="all">关闭所有</el-dropdown-item> 
         </el-dropdown-menu>
       </el-dropdown>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -101,6 +101,9 @@ export default {
   }
 }
 </script>
+
+
+
 
 
 

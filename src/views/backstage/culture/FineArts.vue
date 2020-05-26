@@ -2,7 +2,7 @@
   <div>
     <div class="buttons">
       <div class="buttons">
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="6">
             <el-date-picker
               v-model="Dateshijian"
@@ -52,7 +52,7 @@
         <el-table-column prop="sponsor" label="主办单位"></el-table-column>
         <el-table-column prop="coSponsor" label="协办单位"></el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="50">
           <!-- 编辑用户 -->
           <template v-slot="scope">
             <el-button
@@ -94,7 +94,7 @@
           <el-input v-model="ruleForm.openTime" placeholder="请输入开放时间"></el-input>
         </el-form-item>
         <el-form-item label="开始日期" required>
-          <el-form-item prop="startDate">
+          <el-form-item prop="startDate" style="width:100%">
             <el-date-picker
               value-format="yyyy-MM-dd"
               v-model="ruleForm.startDate"
@@ -104,7 +104,7 @@
             ></el-date-picker>
           </el-form-item>
         </el-form-item>
-        <el-form-item label="结束日期" required>
+        <el-form-item label="结束日期" required style="width:100%">
           <el-form-item prop="endDate">
             <el-date-picker
               value-format="yyyy-MM-dd"
@@ -137,6 +137,8 @@
             style="display: none !important;"
           ></el-input>
           <el-upload
+            :on-change="handleChange"
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
             :on-success="FineArtsSuccess"
@@ -256,6 +258,8 @@
             style="display: none !important;"
           ></el-input>
           <el-upload
+            :on-change="handleChange"
+            :class="{hide:hideUpload}"
             :action="uploadUrl"
             list-type="picture-card"
             ref="uplo"
@@ -375,6 +379,8 @@ export default {
         title: ''
         // detailHtml: ''
       },
+      hideUpload: false,
+      limitCount: 1,
       //   11
       innerVisible: false,
       editorimg: [],
@@ -444,6 +450,11 @@ export default {
 
   methods: {
     //   11
+    //超出限制数隐藏
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount
+      console.log('handleChange -> hideUpload', this.hideUpload)
+    },
     //   富文本上传cg
     editorSuccess(res) {
       console.log('editorSuccess -> res', res)
@@ -494,6 +505,7 @@ export default {
             name: res.data.title,
             id: res.data.id
           })
+          this.hideUpload = this.FineArtsFilesList.length >= this.limitCount
           this.FineArts = true
         }
       })
@@ -618,6 +630,7 @@ export default {
     // 文件列表移除文件时的钩子
     handleRemove(file, fileList) {
       this.ruleForm.picture = ''
+      this.hideUpload = fileList.length >= this.limitCount
       //   let that = this
       //   that.imgList = []
       //   fileList.map(function(item) {
@@ -662,12 +675,9 @@ export default {
   background: oldlace;
 }
 
-.mian {
-  margin: 80px auto;
-}
 .el-table th,
 .el-table tr th {
-  background-color: #f8f700;
+  background-color: #f8f8f8;
 }
 .el-select {
   width: 100%;
@@ -690,5 +700,8 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.hide .el-upload--picture-card {
+  display: none;
 }
 </style>

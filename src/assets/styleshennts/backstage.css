@@ -23,8 +23,8 @@
 .tags {
     position: relative;
     overflow: hidden;
-    background: #fff;
-    padding-right: 120px;
+    background: #fcfcfc;
+    padding-left: 20px;
     /*box-shadow: 0 5px 10px #ddd;*/
 }
 
@@ -37,13 +37,12 @@
 .tags-li {
     float: left;
     margin: 3px 5px 2px 3px;
-    border-radius: 3px;
-    font-size: 12px;
+    border-radius: 8px;
+    font-size: 14px;
     overflow: hidden;
     cursor: pointer;
-    height: 23px;
-    line-height: 23px;
-    border: 1px solid #e9eaec;
+    height: 35px;
+    line-height: 35px;
     background: #fff;
     padding: 0 5px 0 12px;
     vertical-align: middle;
@@ -51,6 +50,10 @@
     -webkit-transition: all 0.3s ease-in;
     -moz-transition: all 0.3s ease-in;
     transition: all 0.3s ease-in;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
 }
 
 .tags-li:not(.active):hover {
@@ -68,12 +71,11 @@
 }
 
 .tags-li.active {
-    border: 1px solid rgba(255, 231, 147, 0.8);
-    background-color: rgba(255, 231, 147, 0.8);
+    background-color: rgba(255, 255, 255);
 }
 
 .tags-li.active .tags-li-title {
-    color: rgb(255, 255, 255) !important;
+    color: #FDBB23!important;
 }
 
 .tags-close-box {
@@ -114,4 +116,15 @@
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 3%;
+}
+
+.el-button--primary {
+    background-color: #FDBB23;
+    border-color: #FDBB23;
+}
+
+.el-button--primary:focus,
+.el-button--primary:hover {
+    background: #FDBB23;
+    border-color: #FDBB23;
 }

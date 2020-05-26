@@ -56,6 +56,8 @@
         </p>
       </div>
     </div>
+    <div style="height:50px
+    "></div>
   </div>
 </template>
 <script>
@@ -144,12 +146,14 @@ export default {
   opacity: 1;
 }
 .figure_main {
-  height: 1545px;
+  /* height: 1545px; */
 }
 .figure_box {
   padding-top: 68px;
   width: 100%;
-  height: 962px;
+  /* height: 962px; */
+  min-height: 750px;
+  padding-bottom: 30px;
   background: rgba(247, 247, 247, 1);
   display: flex;
   justify-content: center;

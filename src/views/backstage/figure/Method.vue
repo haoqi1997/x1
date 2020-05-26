@@ -2,7 +2,7 @@
   <div>
     <div class="buttons">
       <div class="buttons">
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="7">
             <el-input placeholder="请输入标题" clearable @clear="getUMethodList" v-model="Methodname">
               <el-button slot="append" icon="el-icon-search" @click="getUMethodList"></el-button>
@@ -31,7 +31,7 @@
         <el-table-column prop="beginYear" label="开始时间"></el-table-column>
         <el-table-column prop="endYear" label="结束时间"></el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <!-- 编辑用户 -->
           <template v-slot="scope">
             <el-button
@@ -552,12 +552,9 @@ export default {
   background: oldlace;
 }
 
-.mian {
-  margin: 80px auto;
-}
 .el-table th,
 .el-table tr th {
-  background-color: #f8f700;
+  background-color: #f8f8f8;
 }
 .el-select {
   width: 100%;

@@ -1,0 +1,1 @@
+.mian_top{height:50px;display:flex;position:relative}.mian_bias{position:relative;width:80px;top:36px;left:-25px;box-sizing:border-box;line-height:120px;text-indent:5px}.mian_bias:before{content:"";position:absolute;left:0;top:0;width:100%;box-sizing:border-box;border-bottom:1px solid #000;transform:rotate(-45deg) scale(1.414)}
